@@ -1,6 +1,10 @@
+import Home from "./views/Home/Home"
+
 function App() {
   return (
-      <p>Grocery app</p>
+      <div className="w-screen h-screen bg-main-white">
+        <Home />
+      </div>
   )
 }
 
