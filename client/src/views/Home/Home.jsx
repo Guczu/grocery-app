@@ -1,11 +1,11 @@
 import Navbar from "../Navbar/Navbar"
+import ShopList from "../Shoplist/Shoplist"
 
 const Home = () => {
   return (
-    <main className="w-screen h-screen bg-main-white font-poppins">
+    <main className="w-screen h-screen bg-main-white font-poppins overflow-y-scroll">
         {
             //Navbar
-            <Navbar />
 
             //Choose shop
 
@@ -15,6 +15,8 @@ const Home = () => {
 
             //Footer
         }
+        <Navbar/>
+        <ShopList/>
     </main>
   )
 }

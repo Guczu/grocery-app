@@ -11,13 +11,13 @@ const Navbar = () => {
     const [searchText, setSearchText] = useState('');
 
   return (
-    <nav className="w-screen mx-auto h-[90px] gap-4 bg-base-softbackground flex items-center justify-evenly px-10">
+    <nav className="mx-auto h-[90px] gap-4 bg-base-softbackground flex items-center justify-evenly px-10">
         <Link to="/" className="text-main-primary text-heading-4 font-medium">
             Groceries
         </Link>
 
         <div className="hidden xl:flex items-center justify-between w-[48rem] h-[50px] rounded-full p-3 gap-4 bg-main-white focus:outline-none">
-            <CustomButton styles={"text-body-1 bg-base-graybackground gap-2 hidden lg:flex"}>
+            <CustomButton styles={"text-body-1 bg-base-graybackground hover:bg-base-border gap-2 hidden lg:flex"}>
                 <span className="text-typography-text">
                     All categories
                 </span>
@@ -37,7 +37,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex justify-center items-center gap-3">
-            <CustomButton styles="text-body-2 bg-main-primary text-white px-6 py-3 hidden md:block">
+            <CustomButton styles="text-body-2 bg-main-primary hover:bg-main-third text-white px-6 py-3 hidden md:block">
                 <span>
                     Help
                 </span>
