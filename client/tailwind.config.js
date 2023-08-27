@@ -18,7 +18,7 @@ export default {
           'medium': '#5F5F5F',
           'regular': '#303030',
         },
-        'text': {
+        'typography': {
           'text': '#3E3E3E',
           'subtext': '#9A9A9A',
           'paragraph': '#292929',
