@@ -35,6 +35,7 @@ export default {
           'background': '#FDFDFD',
           'softbackground': '#FFF9F3',
           'graybackground': '#F5F6F8',
+          'bluebackground': '#5959D9',
         }
       },
     },

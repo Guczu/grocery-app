@@ -1,4 +1,6 @@
+import InfoLabel from "../InfoLabel/InfoLabel"
 import Navbar from "../Navbar/Navbar"
+import Newsletter from "../Newsletter/Newsletter"
 import ShopList from "../Shoplist/Shoplist"
 
 const Home = () => {
@@ -16,7 +18,13 @@ const Home = () => {
             //Footer
         }
         <Navbar/>
+
         <ShopList/>
+
+        <Newsletter/>
+        
+        <InfoLabel/>
+
     </main>
   )
 }
