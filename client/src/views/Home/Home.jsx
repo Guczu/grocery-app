@@ -2,6 +2,7 @@ import InfoLabel from "../InfoLabel/InfoLabel"
 import Navbar from "../Navbar/Navbar"
 import Newsletter from "../Newsletter/Newsletter"
 import ShopList from "../Shoplist/Shoplist"
+import Footer from "../Footer/Footer"
 
 const Home = () => {
   return (
@@ -25,6 +26,7 @@ const Home = () => {
         
         <InfoLabel/>
 
+        <Footer/>
     </main>
   )
 }
