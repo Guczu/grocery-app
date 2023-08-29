@@ -5,7 +5,7 @@ import CustomButton from "../../components/CustomButton/CustomButton"
 
 const Footer = () => {
   return (
-    <section className="container flex flex-col mx-auto my-[40px]">
+    <footer className="container flex flex-col mx-auto my-[40px]">
         
         <div className="flex flex-col md:flex-row">
             <div className="justify-center items-center md:justify-start md:items-start md:w-1/4 flex flex-col md:p-12 pr-0 mb-12 md:mb-0">
@@ -45,7 +45,7 @@ const Footer = () => {
 
         </div>
 
-    </section>
+    </footer>
   )
 }
 
