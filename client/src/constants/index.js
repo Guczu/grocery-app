@@ -8,6 +8,16 @@ const shops = [
     {name: 'Kaufland', image_url: kaufland},
 ]
 
+const categories = [
+    {name: 'Mięso & ryby', icon: '#', routeLink: '/categories/meat'},
+    {name: 'Napoje', icon: '#', routeLink: '/categories/drinks'},
+    {name: 'Słodycze', icon: '#', routeLink: '/categories'},
+    {name: 'Owoce', icon: '#', routeLink: '/categories/fruits'},
+    {name: 'Pieczywo', icon: '#', routeLink: '/categories/bread'},
+    {name: 'Warzywa', icon: '#', routeLink: '/categories/vegetables'},
+    {name: 'Mrożone', icon: '#', routeLink: '/categories/frozen'},
+]
+
 const footerData = [
     {
         title: "Shop", 
@@ -48,4 +58,4 @@ const footerData = [
     },
 ]
 
-export { shops, footerData };
+export { shops, categories, footerData };

@@ -3,7 +3,6 @@ import ShopListTile from "./ShopListTile/ShopListTile"
 import { shops } from '../../constants/index'
 
 const ShopList = () => {
-    console.log(shops)
   return (
     <div className="container mx-auto my-24">
         <Header title={'Dostępne sklepy'} styles={'text-heading-3 text-typography-text px-[16px]'}/>
