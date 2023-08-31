@@ -11,7 +11,7 @@ const shops = [
 const categories = [
     {name: 'Mięso & ryby', icon: '#', routeLink: '/categories/meat'},
     {name: 'Napoje', icon: '#', routeLink: '/categories/drinks'},
-    {name: 'Słodycze', icon: '#', routeLink: '/categories'},
+    {name: 'Słodycze', icon: '#', routeLink: '/categories/sweets'},
     {name: 'Owoce', icon: '#', routeLink: '/categories/fruits'},
     {name: 'Pieczywo', icon: '#', routeLink: '/categories/bread'},
     {name: 'Warzywa', icon: '#', routeLink: '/categories/vegetables'},

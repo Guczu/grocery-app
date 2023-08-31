@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const CategoryLink = ({ category }) => {
     const { name, icon, routeLink } = category;
-    console.log(icon)
+
   return (
     <div className="flex py-2 justify-center items-center">
         <NavLink 

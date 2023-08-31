@@ -7,7 +7,7 @@ import Categories from "../Categories/Categories"
 
 const Home = () => {
   return (
-    <main className="w-screen h-screen bg-main-white font-poppins overflow-y-scroll">
+    <main className="w-full bg-main-white font-poppins">
         {
             //Navbar
 
@@ -19,17 +19,12 @@ const Home = () => {
 
             //Footer
         }
-        <Navbar/>
-
-        <Categories/>
 
         <ShopList/>
 
         <Newsletter/>
         
         <InfoLabel/>
-
-        <Footer/>
     </main>
   )
 }
