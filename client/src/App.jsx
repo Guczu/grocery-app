@@ -4,6 +4,7 @@ import Products from "./views/Products/Products";
 import Navbar from "./views/Navbar/Navbar";
 import Categories from "./views/Categories/Categories";
 import Footer from "./views/Footer/Footer";
+import Account from "./views/Account/Account";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories/:filter" element={<Products />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
         <Footer/>
       </div>

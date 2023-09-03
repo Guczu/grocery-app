@@ -1,0 +1,30 @@
+import { useState } from "react"
+import AccountMenu from "./AccountMenu/AccountMenu"
+import AccountPanel from "./AccountPanel/AccountPanel";
+import AccountPersonalData from "./AccountPersonalData/AccountPersonalData";
+import AccountOrders from "./AccountOrders/AccountOrders";
+
+const Account = () => {
+    const [menuOptions, setMenuOptions] = useState([{
+        name: "Dane osobowe",
+        component: <AccountPersonalData/>,
+        panelId: 0
+    },
+    {
+        name: "Zamówienia",
+        component: <AccountOrders/>,
+        panelId: 1
+    }]);
+    const [panelIndex, setPanelIndex] = useState(1);
+
+    console.log(panelIndex)
+
+  return (
+    <section className="container mx-auto flex flex-row mt-12 min-h-[300px]">
+        <AccountMenu menuOptions={menuOptions} setPanelIndex={setPanelIndex}/>
+        <AccountPanel menuOptions={menuOptions} panelIndex={panelIndex}/>
+    </section>
+  )
+}
+
+export default Account

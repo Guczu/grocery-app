@@ -8,7 +8,6 @@ const ProductsList = () => {
         <ProductTile/>
         <ProductTile/>
         <ProductTile/>
-        {}
     </div>
   )
 }

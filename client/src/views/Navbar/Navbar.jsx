@@ -45,9 +45,9 @@ const Navbar = () => {
 
             <CustomButton styles="text-body-6 gap-2">
                 <GoPerson className="relative w-6 h-6 hover:cursor-pointer"/>
-                <span className="hidden sm:flex">
+                <Link to='/account' className="hidden sm:flex">
                     Account
-                </span>
+                </Link>
             </CustomButton>
 
             <CustomButton styles="text-body-6 gap-2">
