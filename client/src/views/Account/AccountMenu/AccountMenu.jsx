@@ -1,6 +1,6 @@
 const AccountMenu = ({ menuOptions, setPanelIndex }) => {
   return (
-    <div className="w-1/4 flex flex-col items-center">
+    <div className="w-1/2 md:w-1/4 flex flex-col items-center">
 
         <span className="text-heading-5 p-6">
             Konto

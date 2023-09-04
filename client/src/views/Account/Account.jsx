@@ -20,7 +20,7 @@ const Account = () => {
     console.log(panelIndex)
 
   return (
-    <section className="container mx-auto flex flex-row mt-12 min-h-[300px]">
+    <section className="container mx-auto gap-4 flex flex-col items-center xl:items-start xl:flex-row mt-12 min-h-[300px]">
         <AccountMenu menuOptions={menuOptions} setPanelIndex={setPanelIndex}/>
         <AccountPanel menuOptions={menuOptions} panelIndex={panelIndex}/>
     </section>
