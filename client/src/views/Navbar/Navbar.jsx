@@ -19,7 +19,7 @@ const Navbar = () => {
         <div className="hidden xl:flex items-center justify-between w-[48rem] h-[50px] rounded-full p-3 gap-4 bg-main-white focus:outline-none">
             <CustomButton styles={"text-body-1 bg-base-graybackground hover:bg-base-border gap-2 hidden lg:flex"}>
                 <span className="text-typography-text">
-                    All categories
+                    Wszystkie Kategorie
                 </span>
                 <IoIosArrowDown/>
             </CustomButton>
@@ -29,32 +29,32 @@ const Navbar = () => {
                 disabled={false}
                 name={'search'}
                 onChange={setSearchText}
-                placeholder={'Search anything'}
+                placeholder={'Wyszukaj produkt'}
                 type={'text'}
             >
                 <RxMagnifyingGlass className="w-6 h-6 hover:cursor-pointer"/>
             </CustomInput>
         </div>
 
-        <div className="flex justify-center items-center gap-3">
+        <div className="justify-center items-center gap-3 hidden sm:flex">
             <CustomButton styles="text-body-2 bg-main-primary hover:bg-main-third text-white px-6 py-3 hidden md:block">
                 <span>
-                    Help
+                    Pomoc
                 </span>
             </CustomButton>
 
-            <CustomButton styles="text-body-6 gap-2">
-                <GoPerson className="relative w-6 h-6 hover:cursor-pointer"/>
-                <Link to='/account' className="hidden sm:flex">
-                    Account
+            <CustomButton styles="text-body-6 gap-2 hidden sm:flex">
+                <Link to='/account' className="flex gap-2">
+                    <GoPerson className="relative w-6 h-6 hover:cursor-pointer"/>
+                    Konto
                 </Link>
             </CustomButton>
 
-            <CustomButton styles="text-body-6 gap-2">
-                <PiHandbag className="relative w-6 h-6 hover:cursor-pointer"/>
-                <span className="hidden sm:flex">
-                    Shopping
-                </span>
+            <CustomButton styles="text-body-6 gap-2 hidden sm:flex">
+                <Link to='/cart' className="flex gap-2">
+                    <PiHandbag className="relative w-6 h-6 hover:cursor-pointer"/>
+                    Koszyk
+                </Link>
             </CustomButton>
         </div>
     </nav>
