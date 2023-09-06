@@ -16,7 +16,7 @@ const CustomInput = ({
             data-testid={name}
             type={type}
             name={name}
-            onChange={e => onChange(e.target.value)}
+            onChange={onChange}
             placeholder={placeholder}
             value={value}
             disabled={disabled}
