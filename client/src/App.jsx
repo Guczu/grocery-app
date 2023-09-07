@@ -6,6 +6,7 @@ import Cart from "./views/Cart/Cart";
 import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
 import PageLayout from "./views/PageLayout/PageLayout";
+import NotFound from "./views/NotFound/NotFound";
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
 
           <Route element={<PageLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/categories" element={<Products />} />
             <Route path="/categories/:filter" element={<Products />} />
             <Route path="/account" element={<Account />} />
             <Route path="/cart" element={<Cart />} />
