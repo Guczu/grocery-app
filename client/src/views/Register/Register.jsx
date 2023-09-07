@@ -71,6 +71,10 @@ const Register = () => {
             }
           </Formik>
 
+          <span>
+            Masz już konto? <Link to='/login' className="underline text-main-primary">Zaloguj się</Link>
+          </span>
+
         </div>
     </section>
   )
