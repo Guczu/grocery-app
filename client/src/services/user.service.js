@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const API_URL = 'http://localhost:3001';
 
@@ -22,6 +23,38 @@ const registerUser = async (userData) => {
   }
 };
 
+const loginUser = async (name, password) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/user/auth`, {
+      name,
+      password,
+    });
+
+    if (response.status === 200 && response.data.token) {
+      saveAuthTokenInCookie(response.data.token);
+      return response.status;
+    } else {
+      throw new Error('Błąd logowania');
+    }
+  } catch (error) {
+    console.error('Błąd logowania:', error);
+    throw error;
+  }
+};
+
+const saveAuthTokenInCookie = (token) => {
+  Cookies.set('authToken', token, { 
+    expires: 1,
+    httpOnly: true
+  });
+}
+
+const logoutUser = () => {
+  Cookies.remove('authToken');
+}
+
 export {
   registerUser,
+  loginUser,
+  logoutUser
 };

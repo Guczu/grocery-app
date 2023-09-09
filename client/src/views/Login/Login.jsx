@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import CustomButton from "../../components/CustomButton/CustomButton"
 import CustomInput from "../../components/CustomInput/CustomInput"
 import { BiLogInCircle } from 'react-icons/bi'
 import { Formik } from 'formik'
+import { SigninSchema } from '../../constants/signInValidation'
+import { loginUser } from "../../services/user.service"
+import { useState } from "react"
 
 const Login = () => {
+  const [loginError, setLoginError] = useState('');
+  const navigate = useNavigate();
+
   return (
     <section className="container mx-auto flex justify-center p-12">
         <div className="w-[36rem] bg-base-softbackground rounded-[15px] p-12 flex flex-col items-center gap-6">
@@ -15,13 +21,19 @@ const Login = () => {
 
           <Formik
             initialValues={{ email: '', password: '' }}
-            onSubmit={values => alert(JSON.stringify(values))}
+            validationSchema={SigninSchema}
+            onSubmit={async (values) => {
+              const login = await loginUser(values.email, values.password);
+              login === 200 ? navigate('/') : setLoginError('Nie udało się zalogować!');
+            }}
           >
              {
               ({
                 values,
                 handleChange,
                 handleSubmit,
+                errors,
+                touched
               }) => (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                   <CustomInput
@@ -45,6 +57,16 @@ const Login = () => {
                       type={'text'}
                   >
                   </CustomInput>
+
+                  {errors.password && touched.password ? (
+                    <div className="container flex justify-center text-red-600 text-body-5">{errors.password}</div>
+                  ) : null}
+                  {errors.email && touched.email ? (
+                    <div className="container flex justify-center text-red-600 text-body-5">{errors.email}</div>
+                  ) : null}
+                  {loginError ? (
+                    <div className="container flex justify-center text-red-600 text-body-5">{loginError}</div>
+                  ) : null}
 
                   <CustomButton 
                     styles="text-body-4 bg-main-primary hover:bg-main-third text-white px-6 py-2"
