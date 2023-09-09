@@ -10,7 +10,7 @@ import NotFound from "./views/NotFound/NotFound";
 
 function App() {
   return (
-      <div className="w-full bg-main-white font-poppins">
+      <div className="w-full h-screen bg-main-white font-poppins">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
