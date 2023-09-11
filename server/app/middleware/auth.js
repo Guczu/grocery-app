@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
-import config from '../config';
+import config from '../config.js';
 
 const auth = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
+
   if (token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
   }

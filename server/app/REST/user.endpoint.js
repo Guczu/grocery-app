@@ -20,10 +20,9 @@ const userEndpoint = (router) => {
         }
     });
 
-    router.get('/api/user', async (request, response, next) => {
+    router.get('/api/user/token', async (request, response, next) => {
         try {
-            console.log('api get all users')
-            const result = await business.getUserManager(request).getAllUsers();
+            const result = await business.getUserManager(request).getTokenByUserId(request.query.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);

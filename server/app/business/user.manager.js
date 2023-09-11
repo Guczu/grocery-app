@@ -19,11 +19,21 @@ function create(context) {
     userData = await user;
     await PasswordDAO.authorize(user.id, hashString(password));
     const token = await TokenDAO.create(userData);
-    return getToken(token);
+    return {...getToken(token), userId: user.id}
   }
 
   function getToken(token) {
     return {token: token.value};
+  }
+
+  async function getTokenByUserId(userId) {
+    const token = await TokenDAO.getByUserId(userId);
+    if(token) {
+      return token;
+    }
+    else {
+      throw applicationException.new(applicationException.NOT_FOUND, 'Token not found'); 
+    }
   }
 
   async function createNewOrUpdate(userData) {
@@ -35,15 +45,6 @@ function create(context) {
     }
   }
 
-  async function getAllUsers() {
-    const user = await UserDAO.getAllUsers();
-    if (user) {
-        return user;
-    } else {
-        throw applicationException.new(applicationException.NOT_FOUND, 'Users not found');
-    }
-  }
-
   async function removeHashSession(userId) {
     return await TokenDAO.remove(userId);
   }
@@ -52,7 +53,7 @@ function create(context) {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
     removeHashSession: removeHashSession,
-    getAllUsers: getAllUsers
+    getTokenByUserId: getTokenByUserId,
   };
 }
 
