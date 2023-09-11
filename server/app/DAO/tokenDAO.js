@@ -37,6 +37,7 @@ async function create(user) {
     {
       expiresIn: '3h'
     });
+
   const result = await TokenModel({
     userId: user.id,
     type: 'authorization',
@@ -57,6 +58,10 @@ async function get(tokenValue) {
   throw applicationException.new(applicationException.UNAUTHORIZED, 'Token not found');
 }
 
+async function getByUserId(userId) {
+  return await TokenModel.findOne({ userId: userId });
+}
+
 async function remove(userId) {
   return await TokenModel.deleteOne({ userId: userId });
 }
@@ -65,6 +70,7 @@ export default {
   create: create,
   get: get,
   remove: remove,
+  getByUserId: getByUserId,
 
   tokenTypeEnum: tokenTypeEnum,
   model: TokenModel

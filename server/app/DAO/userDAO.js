@@ -66,21 +66,11 @@ async function removeById(id) {
   return await UserModel.findByIdAndRemove(id);
 }
 
-async function getAllUsers() {
-    const users = await UserModel.find();
-    console.log(users);
-    if (users.length > 0) {
-      return users.map(user => mongoConverter(user));
-    }
-    throw new Error('No users found');
-}
-
 export default {
   createNewOrUpdate: createNewOrUpdate,
   getByEmailOrName: getByEmailOrName,
   get: get,
   removeById: removeById,
-  getAllUsers: getAllUsers,
 
   userRole: userRole,
   model: UserModel
