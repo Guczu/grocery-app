@@ -31,7 +31,8 @@ const loginUser = async (name, password) => {
     });
 
     if (response.status === 200 && response.data.token) {
-      saveAuthTokenInCookie(response.data.token);
+      let expireTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
+      Cookies.set('userId', response.data.userId, { expires: expireTime, sameSite: 'None' });
       return response.status;
     } else {
       throw new Error('Błąd logowania');
@@ -42,19 +43,7 @@ const loginUser = async (name, password) => {
   }
 };
 
-const saveAuthTokenInCookie = (token) => {
-  Cookies.set('authToken', token, { 
-    expires: 1,
-    httpOnly: true
-  });
-}
-
-const logoutUser = () => {
-  Cookies.remove('authToken');
-}
-
 export {
   registerUser,
   loginUser,
-  logoutUser
 };
