@@ -20,9 +20,18 @@ const userEndpoint = (router) => {
         }
     });
 
-    router.get('/api/user/token', async (request, response, next) => {
+    router.post('/api/user/token', async (request, response, next) => {
         try {
             const result = await business.getUserManager(request).getTokenByUserId(request.query.userId);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
+
+    router.post('/api/user/logout', async (request, response, next) => {
+        try {
+            const result = await business.getUserManager(request).removeHashSession(request.body.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);
