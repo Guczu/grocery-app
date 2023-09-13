@@ -4,6 +4,14 @@ import { AiFillTwitterCircle, AiOutlineArrowUp } from 'react-icons/ai'
 import CustomButton from "../../components/CustomButton/CustomButton"
 
 const Footer = () => {
+
+    const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+    };
+
   return (
     <footer className="container flex flex-col mx-auto my-[40px]">
         
@@ -38,7 +46,10 @@ const Footer = () => {
                 </ul>
             </div>
 
-            <CustomButton className="flex items-center justify-center">
+            <CustomButton 
+                className="flex items-center justify-center"
+                onClick={scrollToTop}    
+            >
                 <span className="text-typography-text text-body-1">Scroll to top</span>
                 <AiOutlineArrowUp className="pl-1 w-4 h-4"/>
             </CustomButton> 
