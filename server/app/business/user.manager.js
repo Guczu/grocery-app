@@ -53,7 +53,7 @@ function create(context) {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
     removeHashSession: removeHashSession,
-    getTokenByUserId: getTokenByUserId,
+    getTokenByUserId: getTokenByUserId
   };
 }
 

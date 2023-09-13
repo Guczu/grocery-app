@@ -1,5 +1,6 @@
 import business from '../business/business.container.js';
 import applicationException from '../service/applicationException.js';
+import auth from '../middleware/auth.js';
 
 const userEndpoint = (router) => {
     router.post('/api/user/auth', async (request, response, next) => {
@@ -22,7 +23,7 @@ const userEndpoint = (router) => {
 
     router.post('/api/user/token', async (request, response, next) => {
         try {
-            const result = await business.getUserManager(request).getTokenByUserId(request.query.userId);
+            const result = await business.getUserManager(request).getTokenByUserId(request.body.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);
@@ -33,6 +34,14 @@ const userEndpoint = (router) => {
         try {
             const result = await business.getUserManager(request).removeHashSession(request.body.userId);
             response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
+
+    router.post('/api/user/isauth', auth, async (request, response, next) => {
+        try {
+            response.status(200).send(request.isValid);
         } catch (error) {
             applicationException.errorHandler(error, response);
         }
