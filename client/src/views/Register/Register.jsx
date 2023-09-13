@@ -65,7 +65,7 @@ const Register = () => {
                       onChange={handleChange}
                       value={values.password}
                       placeholder={'Hasło'}
-                      type={'text'}
+                      type={'password'}
                   >
                   </CustomInput>
 
@@ -76,7 +76,7 @@ const Register = () => {
                       onChange={handleChange}
                       value={values.confirmpassword}
                       placeholder={'Powtórz hasło'}
-                      type={'text'}
+                      type={'password'}
                   >
                   </CustomInput>
                   {errors.name && touched.name ? (

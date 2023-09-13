@@ -54,7 +54,7 @@ const Login = () => {
                       onChange={handleChange}
                       value={values.password}
                       placeholder={'Hasło'}
-                      type={'text'}
+                      type={'password'}
                   >
                   </CustomInput>
 

@@ -59,9 +59,26 @@ const logoutUser = async () => {
   }
 }
 
-const isAuthenticated = () => {
-  if (Cookies.get('userId', { path: '/' })) {
-    return true;
+const isAuthenticated = async () => {
+  const userId = Cookies.get('userId');
+  if (userId) {
+    try {
+      const token = await axios.post(`${API_URL}/api/user/token`, {
+        userId: userId
+      });
+  
+      const response = await axios.post(`${API_URL}/api/user/isauth`, {}, {
+        headers: {
+          'authorization': `Bearer ${token.data.value}`
+      }
+      });
+
+      return response.data;
+  
+    } catch (error) {
+      console.error('Błąd pobierania danych:', error);
+      throw error;
+    }
   } else {
     return false;
   }
