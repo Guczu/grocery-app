@@ -76,7 +76,11 @@ const isAuthenticated = async () => {
       return response.data;
   
     } catch (error) {
-      console.error('Błąd pobierania danych:', error);
+      if (error.response && error.response.status === 400) {
+        await logoutUser();
+        return false;
+      }
+
       throw error;
     }
   } else {
