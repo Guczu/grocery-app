@@ -1,12 +1,15 @@
 import ProductTile from "../ProductTile/ProductTile"
 
-const ProductsList = () => {
+const ProductsList = ({ products, setPagination, isLoading }) => {
   return (
     <div className="flex gap-12 flex-wrap p-12">
-        <ProductTile/>
-        <ProductTile/>
-        <ProductTile/>
-        <ProductTile/>
+        {isLoading ? (
+          <span>Ładowanie...</span>
+        ) : (
+          products && products.map((product, i) => (
+            <ProductTile key={i} product={product} />
+          ))
+        )}
     </div>
   )
 }
