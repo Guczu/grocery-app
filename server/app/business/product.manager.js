@@ -2,8 +2,8 @@ import productDAO from "../DAO/productDAO.js";
 
 function create(context) {
 
-  async function getFilteredProducts(filters) {
-    const result = await productDAO.getByFilters(filters);
+  async function getFilteredProducts(data) {
+    const result = await productDAO.getByFilters(data);
     return result;
   }
 

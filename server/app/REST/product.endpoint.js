@@ -2,9 +2,9 @@ import business from '../business/business.container.js';
 import applicationException from '../service/applicationException.js';
 
 const productEndpoint = (router) => {
-    router.post('/api/product', async (request, response, next) => {
+    router.get('/api/products', async (request, response, next) => {
         try {
-            const result = await business.getProductManager(request).getFilteredProducts(request.body.filters);
+            const result = await business.getProductManager(request).getFilteredProducts(request.query);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);

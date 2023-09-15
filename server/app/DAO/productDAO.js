@@ -18,34 +18,34 @@ productSchema.plugin(uniqueValidator);
 
 const ProductModel = mongoose.model('Product', productSchema);
 
-function getByFilters(filters) {
-    const { shop_name, product_name, category, minPrice, maxPrice } = filters;
+function getByFilters(data) {
+    const { shop_name, category, minPrice, maxPrice, page, perPage } = data;
+    const skip = (page - 1) * perPage;
     const query = {};
-  
-    if (shop_name) {
-      query.shop_name = shop_name;
+
+    if (shop_name && shop_name.length > 0) {
+      query.shop_name = { $in: shop_name };
+    }
+
+    if (category && category.length > 0) {
+      query.category = { $in: category };
     }
   
-    if (product_name) {
-      query.product_name = product_name;
-    }
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      query.price = {};
   
-    if (category) {
-      query.category = category;
-    }
-  
-    if (minPrice !== undefined) {
-      query.price = { $gte: minPrice };
-    }
-  
-    if (maxPrice !== undefined) {
-      if (!query.price) {
-        query.price = {};
+      if (minPrice !== undefined) {
+        query.price.$gte = minPrice;
       }
-      query.price.$lte = maxPrice;
+  
+      if (maxPrice !== undefined) {
+        query.price.$lte = maxPrice;
+      }
     }
   
     return ProductModel.find(query)
+      .skip(skip)
+      .limit(parseInt(perPage))
       .exec()
       .then((products) => {
         return products;
