@@ -1,4 +1,25 @@
+import ProductsCheckbox from "./ProductsCheckbox"
+import fetchFilters from "../../../utils/fetchFilters"
+import { useEffect, useState } from "react"
+import CustomButton from "../../../components/CustomButton/CustomButton"
+
 const ProductsFilterList = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [filters, setFilters] = useState();
+
+    useEffect(() => {
+        async function getFilters() {
+            const available_filters = await fetchFilters();
+            if (available_filters) {
+                setFilters(available_filters);
+            }
+            setIsLoading(false);
+        }
+        getFilters();
+    }, [])
+
+    console.log(filters)
+
   return (
     <div className="w-fill h-fill p-12">
 
@@ -12,22 +33,13 @@ const ProductsFilterList = () => {
             </span>
 
             <div className="flex flex-col gap-3 mb-12">
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded accent-main-primary"/>
-                    <span className="px-2">Nazwa sklepu</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Nazwa sklepu</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Nazwa sklepu</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Nazwa sklepu</span>
-                </label>
+                {isLoading ? (
+                    <span>Ładowanie...</span>
+                ) : (
+                    filters && filters.availableShops.map((name, i) => (
+                        <ProductsCheckbox key={i} name={name.toLowerCase()} value={name} />
+                    ))
+                )}
             </div>
 
             <span className="text-heading-3">
@@ -35,34 +47,13 @@ const ProductsFilterList = () => {
             </span>
 
             <div className="flex flex-col gap-3 mb-12">
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
+                {isLoading ? (
+                    <span>Ładowanie...</span>
+                ) : (
+                    filters && filters.availableCategories.map((name, i) => (
+                        <ProductsCheckbox key={i} name={name.toLowerCase()} value={name} />
+                    ))
+                )}
             </div>
 
             <span className="text-heading-3">
@@ -70,47 +61,19 @@ const ProductsFilterList = () => {
             </span>
 
             <div className="flex flex-col gap-1 mb-12">
-                <label htmlFor="">
-                    <input type="text" placeholder="Min" className="w-[5rem] m-2 rounded-[15px] px-4 border-[2px] focus:outline-none"/>
-                    -
-                    <input type="text" placeholder="Max" className="w-[5rem] m-2 rounded-[15px] px-4 border-[2px] focus:outline-none"/>
+                <label htmlFor="min">
+                    <input type="text" id="min" placeholder="Min" className="w-[5rem] m-2 rounded-[15px] px-4 border-[2px] focus:outline-none"/>
+                </label>
+                <label htmlFor="max">
+                    <input type="text" id="max" placeholder="Max" className="w-[5rem] m-2 rounded-[15px] px-4 border-[2px] focus:outline-none"/>
                 </label>
             </div>
 
-            <span className="text-heading-3">
-                Kategoria
-            </span>
-
-            <div className="flex flex-col gap-3 mb-12">
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-                <label htmlFor="">
-                    <input type="checkbox" className="w-4 h-4 rounded"/>
-                    <span className="px-2">Kategoria</span>
-                </label>
-            </div>
+            <CustomButton styles="text-body-2 bg-main-primary hover:bg-main-third text-white px-6 py-2">
+                    <span>
+                        Zastosuj
+                    </span>
+            </CustomButton>
         </div>
 
     </div>
