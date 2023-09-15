@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 
 const API_URL = 'http://localhost:3001';
 
@@ -32,7 +31,7 @@ const loginUser = async (name, password) => {
 
     if (response.status === 200 && response.data.token) {
       let expireTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
-      Cookies.set('userId', response.data.userId, { expires: expireTime, sameSite: 'None', path: '/' });
+      localStorage.setItem('userId', response.data.userId);
       return response.status;
     } else {
       throw new Error('Błąd logowania');
@@ -45,11 +44,11 @@ const loginUser = async (name, password) => {
 
 const logoutUser = async () => {
   try {
-    const userId = Cookies.get('userId');
+    const userId = localStorage.getItem('userId');
     const response = await axios.post(`${API_URL}/api/user/logout`, { userId: userId });
 
     if (response.status === 200) {
-      Cookies.remove('userId', { path: '/' });
+      localStorage.removeItem('userId');
     } else {
       throw new Error('Błąd wylogowania');
     }
@@ -60,7 +59,8 @@ const logoutUser = async () => {
 }
 
 const isAuthenticated = async () => {
-  const userId = Cookies.get('userId');
+  const userId = localStorage.getItem('userId');
+
   if (userId) {
     try {
       const token = await axios.post(`${API_URL}/api/user/token`, {
@@ -84,6 +84,7 @@ const isAuthenticated = async () => {
       throw error;
     }
   } else {
+    await logoutUser();
     return false;
   }
 }
