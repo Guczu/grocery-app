@@ -3,10 +3,12 @@ import fetchFilters from "../../../utils/fetchFilters"
 import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { Formik, Form, Field } from 'formik'
+import { useLocation } from "react-router-dom"
 
 const ProductsFilterList = ({ setFilters }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [availableFilters, setAvailableFilters] = useState();
+    const { filter, shopFilter } = useLocation().state;
 
     useEffect(() => {
         async function getFilters() {
@@ -19,6 +21,13 @@ const ProductsFilterList = ({ setFilters }) => {
         getFilters();
     }, [])
 
+    const initialValues = {
+        shop_name: [shopFilter], 
+        category: [filter], 
+        minPrice: 1, 
+        maxPrice: 999
+    }
+
   return (
     <div className="w-fill h-fill p-12">
 
@@ -29,7 +38,7 @@ const ProductsFilterList = ({ setFilters }) => {
         <div className="flex flex-col items-center gap-2 px-6">
 
             <Formik
-                initialValues={{ shop_name: [], category: [], minPrice: 1, maxPrice: 999 }}
+                initialValues={initialValues}
                 onSubmit={(values) => {
                     setFilters(values);
                 }}
