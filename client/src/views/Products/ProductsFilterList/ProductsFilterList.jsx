@@ -26,7 +26,7 @@ const ProductsFilterList = ({ setFilters }) => {
             Dostosuj
         </span>
 
-        <div className="flex flex-col gap-2 px-6">
+        <div className="flex flex-col items-center gap-2 px-6">
 
             <Formik
                 initialValues={{ shop_name: [], category: [], minPrice: 1, maxPrice: 999 }}

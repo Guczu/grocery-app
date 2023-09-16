@@ -2,7 +2,7 @@ import { Field } from 'formik';
 
 const ProductsCheckbox = ({ id, name, value }) => {
   return (
-    <label htmlFor={id}>
+    <label htmlFor={id} className='w-max'>
     <Field 
       type="checkbox" 
       id={id} 

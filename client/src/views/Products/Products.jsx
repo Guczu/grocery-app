@@ -8,7 +8,7 @@ const Products = () => {
     const [products, setProducts] = useState();
     const [pagination, setPagination] = useState({
       page: 1,
-      perPage: 5
+      perPage: 20
     });
     const [filters, setFilters] = useState({
         category: [],
@@ -26,14 +26,14 @@ const Products = () => {
       }
     }
     getProducts();
-  }, [filters])
+  }, [filters, pagination])
 
   console.log(products)
 
   return (
-    <section className="w-full flex flex-row">
+    <section className="container flex flex-col md:flex-row mx-auto">
         <ProductsFilterList setFilters={setFilters}/>
-        <ProductsList products={products} setPagination={setPagination} isLoading={isLoading}/>
+        <ProductsList products={products} pagination={pagination} setPagination={setPagination} isLoading={isLoading}/>
     </section>
   )
 }
