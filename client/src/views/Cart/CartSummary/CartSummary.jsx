@@ -1,9 +1,22 @@
+import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import CustomInput from "../../../components/CustomInput/CustomInput"
 import { BsCash } from 'react-icons/bs'
 import { RiCoupon2Line } from 'react-icons/ri'
 
-const CartSummary = () => {
+const CartSummary = ({ cartProducts }) => {
+    const [sum, setSum] = useState(0);
+
+    useEffect(() => {
+        if (cartProducts) {
+            const sumValue = () => {
+                const sum = cartProducts.reduce((total, obj) => total + obj.price, 0);
+                setSum(parseFloat(sum.toFixed(2)));
+            }
+            sumValue();
+        }
+    }, [cartProducts])
+
   return (
     <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12">
         <span className="text-heading-5 p-6">
@@ -12,7 +25,7 @@ const CartSummary = () => {
 
         <div className="flex flex-col gap-2">
             <span>
-                Suma: 0
+                Suma: {sum}zł
             </span>
 
             <span>

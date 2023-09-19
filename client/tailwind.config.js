@@ -39,6 +39,7 @@ export default {
         }
       },
     },
+    display: ["group-hover"],
     fontFamily: {
       'poppins': ['Poppins'],
     },
