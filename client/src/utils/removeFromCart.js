@@ -5,7 +5,7 @@ function removeFromCart(product) {
         cart = JSON.parse(cart);
         cart = cart.filter(item => item._id !== product._id);
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(cart)
+        
         return cart;
     }
 }

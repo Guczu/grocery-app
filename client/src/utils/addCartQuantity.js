@@ -1,4 +1,4 @@
-function saveToCart(product) {
+function addCartQuantity(product) {
     let cart = localStorage.getItem('cart');
 
     if (!cart) {
@@ -14,13 +14,9 @@ function saveToCart(product) {
             return item;
         }
     })
-
-    const isProductInArray = newCart.some(item => item._id === product._id);
-
-    if (!isProductInArray) {
-        newCart.push({ ...product, quantity: 1 });
-    }
     localStorage.setItem('cart', JSON.stringify(newCart));
+    
+    return newCart;
 }
 
-export default saveToCart;
+export default addCartQuantity;

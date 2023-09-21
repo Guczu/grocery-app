@@ -10,7 +10,7 @@ const CartSummary = ({ cartProducts }) => {
     useEffect(() => {
         if (cartProducts) {
             const sumValue = () => {
-                const sum = cartProducts.reduce((total, obj) => total + obj.price, 0);
+                const sum = cartProducts.reduce((total, obj) => total + obj.price * obj.quantity, 0);
                 setSum(parseFloat(sum.toFixed(2)));
             }
             sumValue();
