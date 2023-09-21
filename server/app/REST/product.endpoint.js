@@ -19,6 +19,15 @@ const productEndpoint = (router) => {
             applicationException.errorHandler(error, response);
         }
     });
+
+    router.post('/api/discount-code', async (request, response, next) => {
+        try {
+            const result = await business.getProductManager(request).isDiscountCodeValid(request.body.code);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
 };
 
 export default productEndpoint;

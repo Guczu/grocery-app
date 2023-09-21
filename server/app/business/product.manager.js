@@ -12,9 +12,15 @@ function create(context) {
     return result;
   }
 
+  async function isDiscountCodeValid(code) {
+    const result = await productDAO.isDiscountCodeValid(code);
+    return result;
+  }
+
   return {
     getFilteredProducts: getFilteredProducts,
     getAvailableFilters: getAvailableFilters,
+    isDiscountCodeValid: isDiscountCodeValid,
   };
 }
 

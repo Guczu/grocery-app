@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import * as _ from 'lodash';
 import applicationException from '../service/applicationException.js';
 import uniqueValidator from 'mongoose-unique-validator';
+import mongoConverter from '../service/mongoConverter.js'
 
 const productSchema = new mongoose.Schema({
     shop_name: { type: String, required: true },
@@ -14,9 +15,20 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true },
   });
 
+const discountCodesSchema = new mongoose.Schema({
+  code: { type: String, required: true },
+  freeShip: { type: Boolean, required: true },
+  priceDiscount: { type: Boolean, required: true },
+  discountValue: { type: Number, required: true },
+}, {
+  collection: 'discountCodes'
+});
+
 productSchema.plugin(uniqueValidator);
+discountCodesSchema.plugin(uniqueValidator);
 
 const ProductModel = mongoose.model('Product', productSchema);
+const DiscountModel = mongoose.model('Discount', discountCodesSchema);
 
 function getByFilters(data) {
     const { shop_name, category, minPrice, maxPrice, page, perPage } = data;
@@ -71,9 +83,26 @@ async function getAvailableFilters() {
     }
 }
 
+async function isDiscountCodeValid(discountCode) {
+  try {
+    const result = await DiscountModel.findOne({ code: discountCode })
+
+    if (result) {
+      return mongoConverter(result);
+    }
+    throw applicationException.new(applicationException.NOT_FOUND, 'Nie znaleziono kodów rabatowych');
+
+  } catch (err) {
+    console.error('Błąd podczas pobierania kodów rabatowych:', err);
+    throw err;
+  }
+}
+
 export default {
   getByFilters: getByFilters,
   getAvailableFilters: getAvailableFilters,
+  isDiscountCodeValid: isDiscountCodeValid,
+
 
   model: ProductModel
 };
