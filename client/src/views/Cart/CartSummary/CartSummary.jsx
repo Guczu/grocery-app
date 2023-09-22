@@ -51,7 +51,9 @@ const CartSummary = ({ cartProducts }) => {
             </span>
         </div>
 
-        <CustomButton styles="text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2">
+        <CustomButton 
+            styles="text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2"
+        >
             <span>
                 ZAPŁAĆ
             </span>
