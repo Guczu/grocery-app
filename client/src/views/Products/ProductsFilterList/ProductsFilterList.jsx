@@ -8,7 +8,8 @@ import { useLocation } from "react-router-dom"
 const ProductsFilterList = ({ setFilters }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [availableFilters, setAvailableFilters] = useState();
-    const { filter, shopFilter } = useLocation().state;
+    const location = useLocation();
+    const { filter, shopFilter } = location.state || {};
 
     useEffect(() => {
         async function getFilters() {
@@ -22,8 +23,8 @@ const ProductsFilterList = ({ setFilters }) => {
     }, [])
 
     const initialValues = {
-        shop_name: [shopFilter], 
-        category: [filter], 
+        shop_name: [shopFilter && shopFilter], 
+        category: [filter && filter], 
         minPrice: 1, 
         maxPrice: 999
     }
