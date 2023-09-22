@@ -31,6 +31,18 @@ const Products = () => {
     getProducts();
   }, [filters, pagination])
 
+  useEffect(() => {
+    const newFilters = {...filters, category: [filter && filter]}
+    async function getProducts() {
+      const result = await fetchProducts(newFilters, pagination);
+      if (result) {
+        setProducts(result);
+        setIsLoading(false);
+      }
+    }
+    getProducts();
+  }, [location])
+
   return (
     <section className="container flex flex-col md:flex-row mx-auto">
         <ProductsFilterList setFilters={setFilters}/>
