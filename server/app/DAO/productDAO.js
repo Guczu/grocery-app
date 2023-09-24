@@ -98,10 +98,26 @@ async function isDiscountCodeValid(discountCode) {
   }
 }
 
+async function getProduct(product) {
+  try {
+    const result = await ProductModel.find({ product_name: { $regex: new RegExp(product.name, 'i') } });
+    console.log(result)
+    if (result.length > 0) {
+      return result;
+    }
+    throw applicationException.new(applicationException.NOT_FOUND, 'Nie znaleziono produktów');
+
+  } catch (err) {
+    console.error('Błąd podczas pobierania produktów:', err);
+    throw err;
+  }
+}
+
 export default {
   getByFilters: getByFilters,
   getAvailableFilters: getAvailableFilters,
   isDiscountCodeValid: isDiscountCodeValid,
+  getProduct: getProduct,
 
 
   model: ProductModel

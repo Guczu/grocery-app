@@ -17,10 +17,16 @@ function create(context) {
     return result;
   }
 
+  async function getProduct(data) {
+    const result = await productDAO.getProduct(data);
+    return result;
+  }
+
   return {
     getFilteredProducts: getFilteredProducts,
     getAvailableFilters: getAvailableFilters,
     isDiscountCodeValid: isDiscountCodeValid,
+    getProduct: getProduct
   };
 }
 

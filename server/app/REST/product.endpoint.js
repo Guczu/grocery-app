@@ -28,6 +28,15 @@ const productEndpoint = (router) => {
             applicationException.errorHandler(error, response);
         }
     });
+
+    router.get('/api/find-product', async (request, response, next) => {
+        try {
+            const result = await business.getProductManager(request).getProduct(request.query);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
 };
 
 export default productEndpoint;
