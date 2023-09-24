@@ -1,7 +1,15 @@
+import { useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { FiEdit } from 'react-icons/fi'
 
 const AccountPersonalData = () => {
+  const [personalData, setPersonalData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    phone: ''
+  });
+
   return (
     <div className="w-full relative flex flex-col items-center md:items-start gap-4">
 

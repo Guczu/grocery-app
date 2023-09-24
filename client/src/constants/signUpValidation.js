@@ -13,7 +13,7 @@ const SignupSchema = Yup.object().shape({
         .oneOf([Yup.ref('password'), null], 'Hasła nie są identyczne!'),
     email: Yup.string()
         .email('Podany email jest błędny!')
-        .required('Required')
+        .required('Uzupełnij email')
   });
 
 export { SignupSchema };
