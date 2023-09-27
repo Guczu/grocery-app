@@ -47,6 +47,15 @@ const userEndpoint = (router) => {
         }
     });
 
+    router.post('/api/user/get-user', async (request, response, next) => {
+        try {
+            const result = await business.getUserManager(request).getUser(request.body.userId);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
+
 };
 
 export default userEndpoint;

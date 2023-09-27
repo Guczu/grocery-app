@@ -1,5 +1,6 @@
 import PasswordDAO from '../DAO/passwordDAO.js';
 import TokenDAO from '../DAO/tokenDAO.js';
+import userDAO from '../DAO/userDAO.js';
 import UserDAO from '../DAO/userDAO.js';
 import applicationException from '../service/applicationException.js';
 import sha1 from 'sha1';
@@ -49,11 +50,16 @@ function create(context) {
     return await TokenDAO.remove(userId);
   }
 
+  async function getUser(userId) {
+    return await userDAO.get(userId);
+  }
+
   return {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
     removeHashSession: removeHashSession,
-    getTokenByUserId: getTokenByUserId
+    getTokenByUserId: getTokenByUserId,
+    getUser: getUser
   };
 }
 
