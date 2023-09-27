@@ -1,33 +1,57 @@
 import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { FiEdit } from 'react-icons/fi'
-import { getAddress } from "../../../services/address.service";
+import { getAddress } from "../../../services/address.service"
+import { getEmail } from "../../../services/user.service"
 import LoadingPage from '../../LoadingPage/LoadingPage'
+import AccountEditPopup from "../AccountEditPopup/AccountEditPopup"
 
 const AccountPersonalData = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditPopup, setIsEditPopup] = useState(false);
   const [address, setAddress] = useState({});
 
   useEffect(() => {
-    const setAddress = async () => {
-      const userId = localStorage.getItem('userId');
-      const response = await getAddress(userId);
+    const fetchAddress = async () => {
+      const addressData = await getAddress();
+      const email = await getEmail();
       
-      if (response) {
-        setAddress(response);
+      if (addressData && email) {
+        setAddress({ ...addressData, email: email });
+      } else {
+        setAddress({
+          firstName: '', 
+          lastName: '',
+          locality: '',
+          postalCode: '',
+          city: '',
+          phoneNumber: '',
+          email: ''
+        });
       }
+
     }
 
-    setAddress();
+    fetchAddress();
     setIsLoading(false);
-  }, [])
+  }, [isEditPopup])
 
   return (
-    <div className="w-full relative flex flex-col items-center md:items-start gap-4">
+    <div className="w-full flex flex-col items-center md:items-start gap-4">
+        {isEditPopup && address && <AccountEditPopup data={address} setIsEditPopup={setIsEditPopup} />}
 
-        <span className="text-heading-4 mb-6">
-            Dane osobowe
-        </span>
+        <div className="w-max h-max flex justify-center items-center mb-6 gap-4">
+          <span className="text-heading-4">
+              Dane osobowe
+          </span>
+
+          <CustomButton 
+            styles="w-12 h-12 rounded bg-main-primary hover:bg-main-third text-white"
+            onClick={() => setIsEditPopup(true)}
+          >
+              <FiEdit className="w-4 h-4"/>
+          </CustomButton>
+        </div>
 
         {
           isLoading ? (
@@ -36,20 +60,50 @@ const AccountPersonalData = () => {
             </>
           ) : (
             <div className="flex flex-col gap-2 text-heading-2">
-                <span>Imię: {address.firstName ? address.firstName : ""}</span>
-                <span>Nazwisko: {address.lastName ? address.lastName : ""}</span>
-                <span>E-mail: {address.email ? address.email : ""}</span>
-                <span>Miejscowość: {address.locality ? address.locality : ""}</span>
-                <span>Kod pocztowy: {address.postalCode ? address.postalCode : ""}</span>
-                <span>Miasto: {address.city ? address.city : ""}</span>
-                <span>Numer telefonu: {address.phoneNumber ? address.phoneNumber : ""}</span>
+                <p>Imię: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.firstName ? address.firstName : ""}
+                  </span>
+                </p>
+
+                <p>Nazwisko: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.lastName ? address.lastName : ""}
+                  </span>
+                </p>
+
+                <p>E-mail: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.email ? address.email : ""}
+                  </span>
+                </p>
+
+                <p>Miejscowość: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.locality ? address.locality : ""}
+                  </span>
+                </p>
+
+                <p>Kod pocztowy: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.postalCode ? address.postalCode : ""}
+                  </span>
+                </p>
+
+                <p>Miasto: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.city ? address.city : ""}
+                  </span>
+                </p>
+
+                <p>Numer telefonu: 
+                  <span className="text-typography-subtext ml-4">
+                    {address.phoneNumber ? address.phoneNumber : ""}
+                  </span>
+                </p>
             </div>
           )
         }
-
-        <CustomButton styles="w-14 h-14 rounded bg-main-primary hover:bg-main-third text-white md:absolute md:right-0">
-            <FiEdit className="w-6 h-6"/>
-        </CustomButton>
 
     </div>
   )

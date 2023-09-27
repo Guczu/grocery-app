@@ -89,9 +89,30 @@ const isAuthenticated = async () => {
   }
 }
 
+const getEmail = async () => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await axios.post(`${API_URL}/api/user/get-user`, { userId: userId });
+
+    if (response.status === 200) {
+      return response.data.email;
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('HTTP Error: ', error.response.status);
+      console.error('Error message: ', error.response.data.message);
+    } else if (error.request) {
+      console.error('Could not reach the server');
+    } else {
+      console.error('Unexpected error: ', error.message);
+    }
+  }
+};
+
 export {
   registerUser,
   loginUser,
   logoutUser,
-  isAuthenticated
+  isAuthenticated,
+  getEmail,
 };

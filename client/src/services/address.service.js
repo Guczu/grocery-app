@@ -1,10 +1,11 @@
 import axios from 'axios'
 
 const API_URL = 'http://localhost:3001';
+const userId = localStorage.getItem('userId');
 
 const editAddress = async (data) => {
   try {
-    const response = await axios.post(`${API_URL}/api/add-address`, { ...data });
+    const response = await axios.post(`${API_URL}/api/add-address`, { ...data, userId: userId });
 
     if (response.status === 200) {
       return response.data;
@@ -21,7 +22,7 @@ const editAddress = async (data) => {
   }
 };
 
-const getAddress = async (userId) => {
+const getAddress = async () => {
     try {
       const response = await axios.post(`${API_URL}/api/get-address`, { userId: userId });
   
