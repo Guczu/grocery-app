@@ -40,8 +40,25 @@ async function addAddress(data) {
     }
 }
 
+async function getAddress(userId) {
+    try {
+        const address = await AddressModel.findOne({ userId });
+
+        if (!address) {
+            throw new Error('Nie znaleziono adresu dla podanego userId.');
+        }
+
+        return address;
+    } catch (error) {
+        console.error('Wystąpił błąd podczas pobierania adresu:', error);
+        throw error;
+    }
+}
+
+
 export default {
   addAddress: addAddress,
+  getAddress: getAddress,
 
 
   model: AddressModel

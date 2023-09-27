@@ -1,5 +1,4 @@
 import addressDAO from "../DAO/addressDAO.js";
-import newsletterDAO from "../DAO/newsletterDAO.js";
 
 function create(context) {
 
@@ -8,8 +7,14 @@ function create(context) {
     return result;
   }
 
+  async function getAddress(userId) {
+    const result = await addressDAO.getAddress(userId);
+    return result;
+  }
+
   return {
     addAddress: addAddress,
+    getAddress: getAddress,
   };
 }
 

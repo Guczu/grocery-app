@@ -11,7 +11,16 @@ const addressEndpoint = (router) => {
             applicationException.errorHandler(error, response);
         }
     });
-    
+
+    router.post('/api/get-address', async (request, response, next) => {
+        try {
+            const result = await business.getAddressManager(request).getAddress(request.body.userId);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
+
 };
 
 export default addressEndpoint;
