@@ -24,7 +24,7 @@ const Login = () => {
             validationSchema={SigninSchema}
             onSubmit={async (values) => {
               const login = await loginUser(values.email, values.password);
-              login === 200 ? navigate('/') : setLoginError('Nie udało się zalogować!');
+              login.status === 200 ? navigate('/') : setLoginError('Podano błędne dane logowania!');
             }}
           >
              {

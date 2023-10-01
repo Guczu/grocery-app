@@ -32,13 +32,13 @@ const loginUser = async (name, password) => {
     if (response.status === 200 && response.data.token) {
       let expireTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
       localStorage.setItem('userId', response.data.userId);
-      return response.status;
+      return response;
     } else {
       throw new Error('Błąd logowania');
     }
   } catch (error) {
     console.error('Błąd logowania:', error);
-    throw error;
+    return error.response;
   }
 };
 

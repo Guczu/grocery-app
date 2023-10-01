@@ -137,7 +137,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                             </span>
                         </CustomButton>
 
-                        <div className='flex justify-center items-center'>
+                        <div className='flex flex-col justify-center items-center'>
                             {errors.firstName && touched.firstName && (
                                 <div className="text-red-500">{errors.firstName}</div>
                             )}

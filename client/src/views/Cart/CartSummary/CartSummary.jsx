@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { BsCash } from 'react-icons/bs'
 import { RiCoupon2Line } from 'react-icons/ri'
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 
@@ -10,6 +10,7 @@ const CartSummary = ({ cartProducts }) => {
     const [cartValue, setCartValue] = useState(0);
     const [deliveryPrice, setDeliveryPrice] = useState(10);
     const [isCodeUsed, setIsCodeUsed] = useState(false);
+    const [discountError, setDiscountError] = useState('');
 
     const validationSchema = Yup.object().shape({
         coupon: Yup.string().required('Wpisz kod rabatowy'),
@@ -32,6 +33,8 @@ const CartSummary = ({ cartProducts }) => {
             validCode.freeShip && setDeliveryPrice(0);
             validCode.priceDiscount && setCartValue(cartValue - cartValue * (validCode.discountValue / 100 ));
             setIsCodeUsed(true);
+        } else {
+            setDiscountError('Kod został już aktywowany lub jest nieważny!');
         }
     }
 
@@ -81,7 +84,6 @@ const CartSummary = ({ cartProducts }) => {
                             placeholder="Wpisz kod"
                             className="text-body-1 w-full rounded-[10px] text-typography-subtext h-[30px] md:p-[20px] focus:outline-none"
                         />
-                        <ErrorMessage name="coupon" component="div" className="text-red-500" />
 
                         <CustomButton
                         type="submit"
@@ -91,6 +93,10 @@ const CartSummary = ({ cartProducts }) => {
                             <span>ZASTOSUJ</span>
                             <RiCoupon2Line className="ml-[6px] w-4 h-4" />
                         </CustomButton>
+                        
+                        <span className="text-red-500">
+                            {discountError && discountError}
+                        </span>
                     </div>
                     </Form>
                 )}

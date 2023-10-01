@@ -42,7 +42,7 @@ const Register = () => {
                       name={'name'}
                       onChange={handleChange}
                       value={values.name}
-                      placeholder={'Name'}
+                      placeholder={'Nazwa użytkownika'}
                       type={'text'}
                   >
                   </CustomInput>
@@ -84,6 +84,9 @@ const Register = () => {
                   ) : null}
                   {errors.email && touched.email ? (
                     <div className="container flex justify-center text-red-600 text-body-5">{errors.email}</div>
+                  ) : null}
+                  {errors.password && touched.password ? (
+                    <div className="container flex justify-center text-red-600 text-body-5">{errors.password}</div>
                   ) : null}
                   {errors.confirmpassword && touched.confirmpassword ? (
                     <div className="container flex justify-center text-red-600 text-body-5">{errors.confirmpassword}</div>
