@@ -2,6 +2,7 @@ import PasswordDAO from '../DAO/passwordDAO.js';
 import TokenDAO from '../DAO/tokenDAO.js';
 import userDAO from '../DAO/userDAO.js';
 import UserDAO from '../DAO/userDAO.js';
+import addressDAO from '../DAO/addressDAO.js'
 import applicationException from '../service/applicationException.js';
 import sha1 from 'sha1';
 
@@ -39,7 +40,17 @@ function create(context) {
 
   async function createNewOrUpdate(userData) {
     const user = await UserDAO.createNewOrUpdate(userData);
-    if (await userData.password) {
+    const address = await addressDAO.addAddress({
+      userId: user.id,
+      firstName: ' ', 
+      lastName: ' ',
+      locality: ' ',
+      postalCode: ' ',
+      city: ' ',
+      phoneNumber: ' '
+    });
+
+    if (await userData.password && address) {
       return await PasswordDAO.createOrUpdate({userId: user.id, password: hashString(userData.password)});
     } else {
       return user;

@@ -23,7 +23,6 @@ const AddressModel = mongoose.model('Address', addressSchema);
 async function addAddress(data) {
     try {
         const { userId, ...addressData } = data;
-
         const existingAddress = await AddressModel.findOne({ userId });
 
         if (existingAddress) {
