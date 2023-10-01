@@ -8,13 +8,13 @@ import { addressValidationSchema } from '../../../constants/addressValidation'
 const AccountEditPopup = ({ data, setIsEditPopup }) => {
 
     const initialValues = {
-        firstName: data.firstName, 
-        lastName: data.lastName,
-        locality: data.locality,
-        postalCode: data.postalCode,
-        city: data.city,
-        phoneNumber: data.phoneNumber,
-        email: data.email
+        firstName: data.firstName === ' ' ? '' : data.firstName, 
+        lastName: data.lastName === ' ' ? '' : data.lastName,
+        locality: data.locality === ' ' ? '' : data.locality,
+        postalCode: data.postalCode === ' ' ? '' : data.postalCode,
+        city: data.city === ' ' ? '' : data.city,
+        phoneNumber: data.phoneNumber === ' ' ? '' : data.phoneNumber,
+        email: data.email === ' ' ? '' : data.email
       };
     
       const handleSubmit = async(values) => {
@@ -34,7 +34,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
       {({ values, handleChange, errors, touched }) => (
         <Form>
             <section className="fixed flex justify-center items-center inset-0 z-50 w-full h-full backdrop-blur-[2px]">
-                    <div className="relative w-max h-max bg-base-softbackground rounded-[10px] flex flex-col p-6 gap-6 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
+                    <div className="relative w-max h-max bg-base-softbackground rounded-[10px] flex flex-col p-6 gap-2 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
                         <button
                             className="absolute right-0 top-0 p-6"
                             onClick={() => setIsEditPopup(false)}
@@ -51,6 +51,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                             Edytuj dane
                         </span>
 
+                        <span>Imię</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
@@ -62,6 +63,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Nazwisko</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
@@ -73,6 +75,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Email</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text bg-base-disabled md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={true}
@@ -84,6 +87,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Miejscowość</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
@@ -95,6 +99,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Kod pocztowy</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
@@ -106,6 +111,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Miasto</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
@@ -117,6 +123,7 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
                         >
                         </CustomInput>
 
+                        <span>Numer telefonu</span>
                         <CustomInput
                             className={"text-body-1 text-typography-text md:w-[30rem] h-[30px] md:pl-[20px] border-2 rounded focus:outline-none"}
                             disabled={false}
