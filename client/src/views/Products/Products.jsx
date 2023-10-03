@@ -8,12 +8,13 @@ const Products = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const location = useLocation();
-    const { shopFilter, filter } = location.state || {};
+    const { shopFilter, filter, productName } = location.state || {};
     const [pagination, setPagination] = useState({
       page: 1,
       perPage: 20
     });
     const [filters, setFilters] = useState({
+        name: productName,
         category: [filter && filter],
         minPrice: 0,
         maxPrice: 9999,
@@ -32,7 +33,7 @@ const Products = () => {
   }, [filters, pagination])
 
   useEffect(() => {
-    const newFilters = {...filters, category: [filter && filter]}
+    const newFilters = {...filters, name: productName, category: [filter && filter]}
     async function getProducts() {
       const result = await fetchProducts(newFilters, pagination);
       if (result) {

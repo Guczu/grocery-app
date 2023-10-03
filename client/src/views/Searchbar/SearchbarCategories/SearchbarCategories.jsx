@@ -1,11 +1,12 @@
 import { IoIosArrowDown } from "react-icons/io"
 import CustomButton from "../../../components/CustomButton/CustomButton"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import fetchFilters from "../../../utils/fetchFilters";
 
 const SearchbarCategories = ({ category, setCategory }) => {
     const [availableFilters, setAvailableFilters] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         async function getFilters() {
@@ -21,13 +22,27 @@ const SearchbarCategories = ({ category, setCategory }) => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsDropdownOpen(false);
+          }
+        };
+    
+        document.addEventListener("click", handleClickOutside);
+    
+        return () => {
+          document.removeEventListener("click", handleClickOutside);
+        };
+      }, []);
+
     const changeOption = (name) => {
         setCategory(name);
         setIsDropdownOpen(false);
     }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
         <CustomButton 
             styles={'w-44 text-body-1 bg-base-graybackground hover:bg-base-border gap-2 hidden lg:flex'}
             onClick={toggleDropdown}
