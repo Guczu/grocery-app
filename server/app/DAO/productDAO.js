@@ -31,7 +31,7 @@ const ProductModel = mongoose.model('Product', productSchema);
 const DiscountModel = mongoose.model('Discount', discountCodesSchema);
 
 function getByFilters(data) {
-    const { shop_name, category, minPrice, maxPrice, page, perPage } = data;
+    const { name, shop_name, category, minPrice, maxPrice, page, perPage } = data;
     const skip = (page - 1) * perPage;
     const query = {};
 
@@ -53,6 +53,10 @@ function getByFilters(data) {
       if (maxPrice !== undefined) {
         query.price.$lte = maxPrice;
       }
+    }
+
+    if (name && name.length > 0) {
+      query.product_name = { $regex: new RegExp(name, 'i') };
     }
   
     return ProductModel.find(query)
