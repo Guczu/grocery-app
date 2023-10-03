@@ -6,35 +6,16 @@ import { PiHandbag } from 'react-icons/pi';
 import CustomInput from "../../components/CustomInput/CustomInput";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Searchbar from "../Searchbar/Searchbar";
 
 const Navbar = () => {
-    const [searchText, setSearchText] = useState('');
-
   return (
     <nav className="mx-auto h-[90px] gap-4 bg-base-softbackground flex items-center justify-evenly px-10">
         <Link to="/" className="text-main-primary text-heading-4 font-medium">
             Groceries
         </Link>
 
-        <div className="hidden xl:flex items-center justify-between w-[48rem] h-[50px] rounded-full p-3 gap-4 bg-main-white focus:outline-none">
-            <CustomButton styles={"text-body-1 bg-base-graybackground hover:bg-base-border gap-2 hidden lg:flex"}>
-                <span className="text-typography-text">
-                    Wszystkie Kategorie
-                </span>
-                <IoIosArrowDown/>
-            </CustomButton>
-
-            <CustomInput
-                className={"text-body-1 text-typography-subtext w-[30rem] h-[30px] focus:outline-none"}
-                disabled={false}
-                name={'search'}
-                onChange={setSearchText}
-                placeholder={'Wyszukaj produkt'}
-                type={'text'}
-            >
-                <RxMagnifyingGlass className="w-6 h-6 hover:cursor-pointer"/>
-            </CustomInput>
-        </div>
+        <Searchbar/>
 
         <div className="justify-center items-center gap-3 hidden sm:flex">
             <CustomButton styles="text-body-2 bg-main-primary hover:bg-main-third text-white px-6 py-3 hidden md:block">
