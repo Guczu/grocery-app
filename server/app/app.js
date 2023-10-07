@@ -6,7 +6,18 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: [
+        'https://checkout.stripe.com',
+        'http://localhost:5173'
+      ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '2048kb'}));
 
