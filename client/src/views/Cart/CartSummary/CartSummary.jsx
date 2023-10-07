@@ -2,15 +2,24 @@ import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { BsCash } from 'react-icons/bs'
 import { RiCoupon2Line } from 'react-icons/ri'
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, replace } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
+import { getAddress } from "../../../services/address.service"
+import { makeOrder } from "../../../services/order.service"
+import { useLocation } from 'react-router-dom'
+import PaymentPopup from "../PaymentPopup/PaymentPopup"
 
 const CartSummary = ({ cartProducts }) => {
     const [cartValue, setCartValue] = useState(0);
     const [deliveryPrice, setDeliveryPrice] = useState(10);
+    const [discountValue, setDiscountValue] = useState(0);
     const [isCodeUsed, setIsCodeUsed] = useState(false);
     const [discountError, setDiscountError] = useState('');
+    const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const isPayment = queryParams.get('payment');
 
     const validationSchema = Yup.object().shape({
         coupon: Yup.string().required('Wpisz kod rabatowy'),
@@ -31,6 +40,7 @@ const CartSummary = ({ cartProducts }) => {
 
         if (validCode && !isCodeUsed) {
             validCode.freeShip && setDeliveryPrice(0);
+            validCode.priceDiscount && setDiscountValue(validCode.discountValue);
             validCode.priceDiscount && setCartValue(cartValue - cartValue * (validCode.discountValue / 100 ));
             setIsCodeUsed(true);
         } else {
@@ -38,71 +48,92 @@ const CartSummary = ({ cartProducts }) => {
         }
     }
 
+    const makeAnOrder = async (products) => {
+        const address = await getAddress();
+        const isAddressValid = !Object.values(address).some(value => value === " ");
+
+        if (isAddressValid && address) {
+            const paymentURL = await makeOrder(products, deliveryPrice, discountValue, cartValue);
+            //history.push = paymentURL;
+            window.location.href = paymentURL;
+        }
+    }
+
+    useEffect(() => {
+        if (isPayment !== null) {
+            setShowPaymentPopup(true);
+        }
+    },[isPayment])
+
   return (
-    <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12">
-        <span className="text-heading-5 p-6">
-            Podsumowanie
-        </span>
-
-        <div className="flex flex-col gap-2">
-            <span>
-                Suma: {cartValue.toFixed(2)}zł
+    <>
+        {showPaymentPopup && <PaymentPopup status={isPayment} setShowPaymentPopup={setShowPaymentPopup}/> }
+        <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12">
+            <span className="text-heading-5 p-6">
+                Podsumowanie
             </span>
 
-            <span>
-                Dostawa: {deliveryPrice}
-            </span>
+            <div className="flex flex-col gap-2">
+                <span>
+                    Suma: {cartValue.toFixed(2)}zł
+                </span>
+
+                <span>
+                    Dostawa: {deliveryPrice}
+                </span>
+            </div>
+
+            <CustomButton 
+                styles="text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2"
+                onClick={() => makeAnOrder(cartProducts)}
+            >
+                <span>
+                    ZAPŁAĆ
+                </span>
+                <BsCash className="ml-[6px] w-4 h-4"/>
+            </CustomButton>
+
+            <div className="flex flex-col gap-3">
+                <Formik
+                    initialValues={{ coupon: '' }}
+                    validationSchema={validationSchema}
+                    onSubmit={async (values, { setSubmitting }) => {
+                        await checkDiscountCode(values.coupon);
+                        setSubmitting(false);
+                        values.coupon = ""
+                    }}
+                    >
+                    {({ isSubmitting }) => (
+                        <Form>
+                        <div className="flex flex-col gap-3">
+                            <span className="text-heading-3 mt-6 p-6">Kod rabatowy</span>
+
+                            <Field
+                                type="text"
+                                name="coupon"
+                                placeholder="Wpisz kod"
+                                className="text-body-1 w-full rounded-[10px] text-typography-subtext h-[30px] md:p-[20px] focus:outline-none"
+                            />
+
+                            <CustomButton
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="flex justify-center items-center text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2 rounded-full"
+                            >
+                                <span>ZASTOSUJ</span>
+                                <RiCoupon2Line className="ml-[6px] w-4 h-4" />
+                            </CustomButton>
+                            
+                            <span className="text-red-500">
+                                {discountError && discountError}
+                            </span>
+                        </div>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
         </div>
-
-        <CustomButton 
-            styles="text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2"
-        >
-            <span>
-                ZAPŁAĆ
-            </span>
-            <BsCash className="ml-[6px] w-4 h-4"/>
-        </CustomButton>
-
-        <div className="flex flex-col gap-3">
-            <Formik
-                initialValues={{ coupon: '' }}
-                validationSchema={validationSchema}
-                onSubmit={async (values, { setSubmitting }) => {
-                    await checkDiscountCode(values.coupon);
-                    setSubmitting(false);
-                    values.coupon = ""
-                }}
-                >
-                {({ isSubmitting }) => (
-                    <Form>
-                    <div className="flex flex-col gap-3">
-                        <span className="text-heading-3 mt-6 p-6">Kod rabatowy</span>
-
-                        <Field
-                            type="text"
-                            name="coupon"
-                            placeholder="Wpisz kod"
-                            className="text-body-1 w-full rounded-[10px] text-typography-subtext h-[30px] md:p-[20px] focus:outline-none"
-                        />
-
-                        <CustomButton
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="flex justify-center items-center text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2 rounded-full"
-                        >
-                            <span>ZASTOSUJ</span>
-                            <RiCoupon2Line className="ml-[6px] w-4 h-4" />
-                        </CustomButton>
-                        
-                        <span className="text-red-500">
-                            {discountError && discountError}
-                        </span>
-                    </div>
-                    </Form>
-                )}
-            </Formik>
-        </div>
-    </div>
+    </>
   )
 }
 
