@@ -6,7 +6,7 @@ const paymentsEndpoint = (router) => {
     router.post('/api/payment/create-payment', async (request, response, next) => {
         try {
             const result = await business.getPaymentsManager(request).createPayment(request.body);
-            response.status(200).send(result.url);
+            response.status(200).send(result.id);
         } catch (error) {
             applicationException.errorHandler(error, response);
         }
