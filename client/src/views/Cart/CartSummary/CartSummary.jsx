@@ -6,7 +6,7 @@ import { Formik, Form, Field, replace } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
-import { makeOrder } from "../../../services/order.service"
+import { addOrder, makeOrder } from "../../../services/order.service"
 import { useLocation } from 'react-router-dom'
 import PaymentPopup from "../PaymentPopup/PaymentPopup"
 
@@ -53,13 +53,19 @@ const CartSummary = ({ cartProducts }) => {
         const isAddressValid = !Object.values(address).some(value => value === " ");
 
         if (isAddressValid && address) {
-            await makeOrder(products, deliveryPrice, discountValue, cartValue);
+            const orderResult = await addOrder(products);
+            if (orderResult === 200) {
+                await makeOrder(products, deliveryPrice, discountValue, cartValue);
+            }
         }
     }
 
     useEffect(() => {
         if (isPayment !== null) {
             setShowPaymentPopup(true);
+        }
+        else if (isPayment === false) {
+            //delete order if exists
         }
     },[isPayment])
 
