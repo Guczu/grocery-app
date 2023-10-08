@@ -17,8 +17,46 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
       sessionId: response.data,
     });
 
-    console.log(result)
+  } catch (error) {
+    if (error.response) {
+      console.error('HTTP Error: ', error.response.status);
+      console.error('Error message: ', error.response.data.message);
+    } else if (error.request) {
+      console.error('Could not reach the server');
+    } else {
+      console.error('Unexpected error: ', error.message);
+    }
+  }
+};
 
+const addOrder = async (products) => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await axios.post(`${API_URL}/api/orders/add`, { products: products, userId: userId });
+
+    if (response.status === 200) {
+      return response.status;
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('HTTP Error: ', error.response.status);
+      console.error('Error message: ', error.response.data.message);
+    } else if (error.request) {
+      console.error('Could not reach the server');
+    } else {
+      console.error('Unexpected error: ', error.message);
+    }
+  }
+};
+
+const getOrders = async () => {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await axios.post(`${API_URL}/api/orders/get`, { userId: userId });
+
+    if (response.status === 200) {
+      return response.data;
+    }
   } catch (error) {
     if (error.response) {
       console.error('HTTP Error: ', error.response.status);
@@ -33,4 +71,5 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
 
 export {
   makeOrder,
+  addOrder
 };
