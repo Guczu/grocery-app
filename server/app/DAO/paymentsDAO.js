@@ -41,8 +41,8 @@ async function createPayment(data) {
         success_url: 'http://localhost:5173/cart/?payment=true',
         cancel_url: 'http://localhost:5173/cart/?payment=false'
     })
-
-    return { url: session.url };
+    
+    return { id: session.id };
 }
 
 export default {
