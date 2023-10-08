@@ -53,9 +53,7 @@ const CartSummary = ({ cartProducts }) => {
         const isAddressValid = !Object.values(address).some(value => value === " ");
 
         if (isAddressValid && address) {
-            const paymentURL = await makeOrder(products, deliveryPrice, discountValue, cartValue);
-            //history.push = paymentURL;
-            window.location.href = paymentURL;
+            await makeOrder(products, deliveryPrice, discountValue, cartValue);
         }
     }
 
