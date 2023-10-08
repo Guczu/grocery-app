@@ -10,16 +10,18 @@ const CartProducts = ({ cartProducts, setCartProducts }) => {
       {cartProducts && cartProducts.slice(0, isCartExpanded ? cartProducts.length : 5).map(( product, index ) => (
         <CartProductTile key={index} product={product} setCartProducts={setCartProducts} />
       ))}
-      {isCartExpanded ? (
-        <MdKeyboardArrowUp 
-          className="w-6 h-6 bg-base-graybackground rounded-full hover:cursor-pointer"
-          onClick={() => setIsCartExpanded(false)}
-        />
-      ): (
-        <MdKeyboardArrowDown 
-          className="w-6 h-6 bg-base-graybackground rounded-full hover:cursor-pointer"
-          onClick={() => setIsCartExpanded(true)}
-        />
+      {cartProducts.length > 5 && (
+        isCartExpanded ? (
+          <MdKeyboardArrowUp 
+            className="w-6 h-6 bg-base-graybackground rounded-full hover:cursor-pointer"
+            onClick={() => setIsCartExpanded(false)}
+          />
+        ) : (
+          <MdKeyboardArrowDown 
+            className="w-6 h-6 bg-base-graybackground rounded-full hover:cursor-pointer"
+            onClick={() => setIsCartExpanded(true)}
+          />
+        )
       )}
    </div>
   )

@@ -71,5 +71,6 @@ const getOrders = async () => {
 
 export {
   makeOrder,
-  addOrder
+  addOrder,
+  getOrders
 };

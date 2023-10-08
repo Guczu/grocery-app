@@ -5,9 +5,11 @@ import fetchCart from "../../utils/fetchCart";
 import { AiOutlineShopping } from 'react-icons/ai'
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { Link } from 'react-router-dom'
+import PaymentPopup from "../Cart/PaymentPopup/PaymentPopup"
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
+  const [showPaymentPopup, setShowPaymentPopup] = useState({ paymentStatus: null, popupStatus: false });
 
   useEffect(() => {
     const cart = fetchCart();
@@ -18,10 +20,11 @@ const Cart = () => {
 
   return (
     <>
+      {showPaymentPopup.popupStatus && <PaymentPopup status={showPaymentPopup.paymentStatus} setShowPaymentPopup={setShowPaymentPopup}/> }
       {cartProducts.length > 0 ? (
         <section className="container mx-auto flex flex-col md:flex-row items-center md:items-start md:justify-center mt-12 min-h-[300px] gap-4">
           <CartProducts cartProducts={cartProducts} setCartProducts={setCartProducts}/>
-          <CartSummary cartProducts={cartProducts}/>
+          <CartSummary cartProducts={cartProducts} setCartProducts={setCartProducts} setShowPaymentPopup={setShowPaymentPopup}/>
         </section>
       ) : (
         <section className="container mx-auto flex flex-col items-center justify-center mt-12 min-h-[300px] gap-4">

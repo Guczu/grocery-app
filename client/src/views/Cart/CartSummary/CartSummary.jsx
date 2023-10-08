@@ -2,21 +2,19 @@ import { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { BsCash } from 'react-icons/bs'
 import { RiCoupon2Line } from 'react-icons/ri'
-import { Formik, Form, Field, replace } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
 import { addOrder, makeOrder } from "../../../services/order.service"
 import { useLocation } from 'react-router-dom'
-import PaymentPopup from "../PaymentPopup/PaymentPopup"
 
-const CartSummary = ({ cartProducts }) => {
+const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => {
     const [cartValue, setCartValue] = useState(0);
     const [deliveryPrice, setDeliveryPrice] = useState(10);
     const [discountValue, setDiscountValue] = useState(0);
     const [isCodeUsed, setIsCodeUsed] = useState(false);
     const [discountError, setDiscountError] = useState('');
-    const [showPaymentPopup, setShowPaymentPopup] = useState(false);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const isPayment = queryParams.get('payment');
@@ -61,17 +59,20 @@ const CartSummary = ({ cartProducts }) => {
     }
 
     useEffect(() => {
-        if (isPayment !== null) {
-            setShowPaymentPopup(true);
-        }
-        else if (isPayment === false) {
+        if (isPayment) {
+            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
+            setCartProducts([]);
+            if(localStorage.getItem('cart')) {
+                localStorage.removeItem('cart');
+            }
+        } else {
+            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
             //delete order if exists
         }
     },[isPayment])
 
   return (
     <>
-        {showPaymentPopup && <PaymentPopup status={isPayment} setShowPaymentPopup={setShowPaymentPopup}/> }
         <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12">
             <span className="text-heading-5 p-6">
                 Podsumowanie
