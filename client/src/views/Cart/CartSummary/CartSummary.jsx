@@ -59,15 +59,18 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     }
 
     useEffect(() => {
-        if (isPayment) {
+        console.log(isPayment)
+        if (isPayment === 'true') {
             setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
             setCartProducts([]);
             if(localStorage.getItem('cart')) {
                 localStorage.removeItem('cart');
             }
-        } else {
+        } else if (isPayment === 'false') {
             setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
             //delete order if exists
+        } else {
+            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: false });
         }
     },[isPayment])
 
