@@ -29,7 +29,6 @@ ordersSchema.plugin(uniqueValidator);
 const OrdersModel = mongoose.model('Orders', ordersSchema);
 
 async function addOrder(data) {
-    console.log(data)
     try {
         const orderValues = {
             userId: data.userId,
@@ -55,11 +54,23 @@ async function getOrders(userId) {
     }
 }
 
+async function deleteOrder(orderId) {
+    try {
+      const deletedOrder = await OrdersModel.findByIdAndDelete(orderId);
+      if (!deletedOrder) {
+        throw new Error('Zamówienie o podanym identyfikatorze nie istnieje.');
+      }
+      return deletedOrder;
+    } catch (error) {
+      console.error('Wystąpił błąd podczas usuwania zamówienia:', error);
+      throw error;
+    }
+}
 
 export default {
   addOrder: addOrder,
   getOrders: getOrders,
-
+  deleteOrder: deleteOrder,
 
   model: OrdersModel
 };

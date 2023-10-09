@@ -12,9 +12,15 @@ function create(context) {
     return result;
   }
 
+  async function deleteOrder(orderId) {
+    const result = await ordersDAO.deleteOrder(orderId);
+    return result;
+  }
+
   return {
     addOrder: addOrder,
     getOrders: getOrders,
+    deleteOrder: deleteOrder,
   };
 }
 

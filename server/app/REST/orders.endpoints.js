@@ -20,6 +20,17 @@ const ordersEndpoint = (router) => {
             applicationException.errorHandler(error, response);
         }
     });
+    
+    router.delete('/api/orders/delete/:orderId', async (request, response, next) => {
+        try {
+          const orderId = request.params.orderId;
+          const result = await business.getOrdersManager(request).deleteOrder(orderId);
+          response.status(200).send(result);
+
+        } catch (error) {
+          applicationException.errorHandler(error, response);
+        }
+      });
 
 };
 
