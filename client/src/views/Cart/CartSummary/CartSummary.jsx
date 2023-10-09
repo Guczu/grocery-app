@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
-import { addOrder, makeOrder } from "../../../services/order.service"
+import { addOrder, deleteOrder, makeOrder } from "../../../services/order.service"
 import { useLocation } from 'react-router-dom'
 
 const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => {
@@ -52,14 +52,23 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
 
         if (isAddressValid && address) {
             const orderResult = await addOrder(products);
-            if (orderResult === 200) {
+
+            if (orderResult.status === 200) {
+                localStorage.setItem('orderId', orderResult.data._id);
                 await makeOrder(products, deliveryPrice, discountValue, cartValue);
             }
         }
     }
 
     useEffect(() => {
-        console.log(isPayment)
+        const delOrder = async () => {
+            const orderId = localStorage.getItem('orderId');
+            if (orderId) {
+                const order = await deleteOrder(orderId);
+                localStorage.removeItem('orderId');
+            }
+        }
+
         if (isPayment === 'true') {
             setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
             setCartProducts([]);
@@ -67,8 +76,8 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 localStorage.removeItem('cart');
             }
         } else if (isPayment === 'false') {
+            delOrder();
             setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
-            //delete order if exists
         } else {
             setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: false });
         }

@@ -35,7 +35,7 @@ const addOrder = async (products) => {
     const response = await axios.post(`${API_URL}/api/orders/add`, { products: products, userId: userId });
 
     if (response.status === 200) {
-      return response.status;
+      return response;
     }
   } catch (error) {
     if (error.response) {
@@ -69,8 +69,28 @@ const getOrders = async () => {
   }
 };
 
+const deleteOrder = async (orderId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/api/orders/delete/${orderId}`);
+
+    if (response.status === 200) {
+      return response.status;
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('HTTP Error: ', error.response.status);
+      console.error('Error message: ', error.response.data.message);
+    } else if (error.request) {
+      console.error('Could not reach the server');
+    } else {
+      console.error('Unexpected error: ', error.message);
+    }
+  }
+};
+
 export {
   makeOrder,
   addOrder,
-  getOrders
+  getOrders,
+  deleteOrder
 };
