@@ -33,7 +33,9 @@ const Products = () => {
   }, [filters, pagination])
 
   useEffect(() => {
-    const newFilters = {...filters, name: productName, category: [filter && filter]}
+    const newFilters = {...filters, name: productName, category: [filter && filter], shop_name: [shopFilter && shopFilter]}
+    setFilters(newFilters);
+    
     async function getProducts() {
       const result = await fetchProducts(newFilters, pagination);
       if (result) {
@@ -46,7 +48,7 @@ const Products = () => {
 
   return (
     <section className="container flex flex-col md:flex-row mx-auto">
-        <ProductsFilterList setFilters={setFilters}/>
+        <ProductsFilterList filters={filters} setFilters={setFilters}/>
         <ProductsList products={products} pagination={pagination} setPagination={setPagination} isLoading={isLoading}/>
     </section>
   )

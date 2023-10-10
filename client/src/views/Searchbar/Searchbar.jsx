@@ -22,7 +22,7 @@ const Searchbar = () => {
         >
             <Link
                 to='/categories'
-                state={{ productName: searchText, filter: category === 'Wszystkie kategorie' ? null : category }}
+                state={{ productName: searchText, filter: category === 'Wszystkie kategorie' ? null : category, shopFilter: null}}
             >
                 <RxMagnifyingGlass 
                     className="w-6 h-6 hover:cursor-pointer"
