@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md"
+import formatDate from "../../../utils/formatDate";
 
 const AccountOrdersTile = ({ item }) => {
     const [isListExpanded, setIsListExpanded] = useState(false);
     const { orderDate, orderItems } = item;
-    const date = new Date(orderDate);
-    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    const formattedDate = formatDate(orderDate);
   
     return (
     <div className="w-full pl-12 pr-12 pb-2 flex flex-col items-center justify-center md:justify-around h-max rounded-[15px] relative bg-base-softbackground">

@@ -12,7 +12,10 @@ const AccountOrders = () => {
       const orders = await getOrders();
 
       if (orders) {
-        setUserOrders(orders);
+        const sortedOrders = orders
+          .map(order => ({ ...order, date: new Date(order.orderDate) }))
+          .sort((a, b) => b.date - a.date);
+        setUserOrders(sortedOrders);
       }
     }
     fetchOrders();
