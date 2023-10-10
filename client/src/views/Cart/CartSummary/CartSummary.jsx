@@ -101,7 +101,8 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
             </div>
 
             <CustomButton 
-                styles="text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2"
+                styles={`text-body-3 text-white px-6 py-2 ${cartProducts.length < 1 ? 'bg-base-disabled' : 'bg-main-primary hover:bg-main-third'}`}
+                disabled={cartProducts.length < 1}
                 onClick={() => makeAnOrder(cartProducts)}
             >
                 <span>
@@ -134,8 +135,8 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
 
                             <CustomButton
                             type="submit"
-                            disabled={isSubmitting}
-                            className="flex justify-center items-center text-body-3 bg-main-primary hover:bg-main-third text-white px-6 py-2 rounded-full"
+                            disabled={isSubmitting || cartProducts.length < 1}
+                            className={`flex justify-center items-center text-body-3 text-white px-6 py-2 rounded-full ${cartProducts.length < 1 ? 'bg-base-disabled' : 'bg-main-primary hover:bg-main-third'}`}
                             >
                                 <span>ZASTOSUJ</span>
                                 <RiCoupon2Line className="ml-[6px] w-4 h-4" />
