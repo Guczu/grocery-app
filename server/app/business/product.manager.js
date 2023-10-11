@@ -22,11 +22,17 @@ function create(context) {
     return result;
   }
 
+  async function getTop10ByOrdersAmount() {
+    const result = await productDAO.getTop10ByOrdersAmount();
+    return result;
+  }
+
   return {
     getFilteredProducts: getFilteredProducts,
     getAvailableFilters: getAvailableFilters,
     isDiscountCodeValid: isDiscountCodeValid,
-    getProduct: getProduct
+    getProduct: getProduct,
+    getTop10ByOrdersAmount: getTop10ByOrdersAmount,
   };
 }
 

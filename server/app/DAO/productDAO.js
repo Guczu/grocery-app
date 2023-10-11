@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
     producer: { type: String, required: true },
     image_url: { type: String, required: true },
     category: { type: String, required: true },
+    ordersAmount: { type: Number, default: 0 },
   });
 
 const discountCodesSchema = new mongoose.Schema({
@@ -117,12 +118,42 @@ async function getProduct(product) {
   }
 }
 
+async function updateOrdersAmount(data) {
+  try {
+    const productId = data.items.map((product) => product._id);
+
+    await ProductModel.updateMany(
+      { _id: { $in: productId } },
+      { $inc: { ordersAmount: 1 } }
+    );
+
+    console.log('Zaktualizowano wartość pola "ordersAmount" dla wybranych produktów.');
+  } catch (err) {
+    console.error('Błąd podczas aktualizacji "ordersAmount" dla produktów:', err);
+    throw err;
+  }
+}
+
+async function getTop10ByOrdersAmount() {
+  try {
+    const topProducts = await ProductModel.find({})
+      .sort({ ordersAmount: -1 })
+      .limit(10);
+
+    return topProducts;
+  } catch (err) {
+    console.error('Błąd podczas pobierania 10 produktów z największą ilością "ordersAmount":', err);
+    throw err;
+  }
+}
+
 export default {
   getByFilters: getByFilters,
   getAvailableFilters: getAvailableFilters,
   isDiscountCodeValid: isDiscountCodeValid,
   getProduct: getProduct,
-
+  updateOrdersAmount: updateOrdersAmount,
+  getTop10ByOrdersAmount: getTop10ByOrdersAmount,
 
   model: ProductModel
 };
