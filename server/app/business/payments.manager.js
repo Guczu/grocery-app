@@ -9,8 +9,14 @@ function create(context) {
     return result;
   }
 
+  async function checkSession(data) {
+    const result = await paymentsDAO.checkSession(data);
+    return result;
+  }
+
   return {
-    createPayment: createPayment
+    createPayment: createPayment,
+    checkSession: checkSession
   };
 }
 

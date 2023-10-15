@@ -23,7 +23,7 @@ async function createPayment(data) {
                     product_data: {
                         name: item.product_name,
                     },
-                    unit_amount: item.price * 100,
+                    unit_amount: Math.round(item.price * 100),
                 },
                 quantity: item.quantity,
             })),
@@ -45,6 +45,23 @@ async function createPayment(data) {
     return { id: session.id };
 }
 
+async function checkSession(data) {
+    try {
+        const session = await stripe.checkout.sessions.retrieve(data.sessionId);
+
+        if (session) {
+            return session;
+        } else {
+            return 'Brak podanej sesji';
+        }
+
+      } catch (error) {
+        console.error('Błąd podczas sprawdzania sesji płatności', error);
+        throw error;
+    }
+}
+
 export default {
   createPayment: createPayment,
+  checkSession: checkSession
 };

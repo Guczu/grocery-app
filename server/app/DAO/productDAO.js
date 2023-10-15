@@ -127,7 +127,6 @@ async function updateOrdersAmount(data) {
       { $inc: { ordersAmount: 1 } }
     );
 
-    console.log('Zaktualizowano wartość pola "ordersAmount" dla wybranych produktów.');
   } catch (err) {
     console.error('Błąd podczas aktualizacji "ordersAmount" dla produktów:', err);
     throw err;

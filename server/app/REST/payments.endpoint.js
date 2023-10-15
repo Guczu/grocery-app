@@ -12,6 +12,15 @@ const paymentsEndpoint = (router) => {
         }
     });
 
+    router.post('/api/payment/check-session', async (request, response, next) => {
+        try {
+            const result = await business.getPaymentsManager(request).checkSession(request.body);
+            response.status(200).send(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
+
 };
 
 export default paymentsEndpoint;

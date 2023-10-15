@@ -16,6 +16,7 @@ const orderItemSchema = new mongoose.Schema({
 
 const ordersSchema = new mongoose.Schema({
     userId: { type: String, required: true },
+    sessionId: { type: String, required: true},
     orderItems: [orderItemSchema],
     orderDate: { type: Date, default: Date.now },
 },
@@ -33,6 +34,7 @@ async function addOrder(data) {
         const orderValues = {
             userId: data.userId,
             orderItems: data.products,
+            sessionId: data.sessionId
         }
 
         const newOrder = new OrdersModel(orderValues);
