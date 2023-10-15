@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
-import { addOrder, deleteOrder, makeOrder } from "../../../services/order.service"
+import { addOrder, checkPayment, deleteOrder, makeOrder } from "../../../services/order.service"
 import { useLocation } from 'react-router-dom'
 
 const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => {
@@ -51,12 +51,17 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         const isAddressValid = !Object.values(address).some(value => value === " ");
 
         if (isAddressValid && address) {
-            const orderResult = await addOrder(products);
+            const order = await makeOrder(products, deliveryPrice, discountValue, cartValue);
 
-            if (orderResult.status === 200) {
-                localStorage.setItem('orderId', orderResult.data._id);
-                await makeOrder(products, deliveryPrice, discountValue, cartValue);
+            if (order) {
+                const orderResult = await addOrder(products, order);
+
+                if (orderResult) {
+                    localStorage.setItem('orderId', orderResult.data._id);
+                    localStorage.setItem('sessionId', order);
+                }
             }
+
         }
     }
 
@@ -69,18 +74,39 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
             }
         }
 
-        if (isPayment === 'true') {
-            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
-            setCartProducts([]);
-            if(localStorage.getItem('cart')) {
-                localStorage.removeItem('cart');
+        const checkOrder = async () => {
+            const sessionId = localStorage.getItem('sessionId');
+            let isOrderPaid = false;
+
+            if (sessionId) {
+                const isPaid = await checkPayment();
+                
+                if (isPaid === "paid") {
+                    isOrderPaid = true;
+                }
             }
-        } else if (isPayment === 'false') {
-            delOrder();
-            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
-        } else {
-            setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: false });
+
+            return isOrderPaid;
         }
+
+        const manageOrder = async () => {
+            if (isPayment !== null) {
+                const isOrderPaid = await checkOrder();
+    
+                if (isOrderPaid) {
+                    setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
+                    setCartProducts([]);
+                    if(localStorage.getItem('cart')) {
+                        localStorage.removeItem('cart');
+                    }
+                } else {
+                    await delOrder();
+                    setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });
+                }
+            }
+        }
+        manageOrder();
+
     },[isPayment])
 
   return (

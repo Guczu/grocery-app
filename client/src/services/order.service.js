@@ -13,9 +13,11 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
         }
     });
 
-    const result = stripe.redirectToCheckout({
+    stripe.redirectToCheckout({
       sessionId: response.data,
     });
+
+    return response.data;
 
   } catch (error) {
     if (error.response) {
@@ -29,10 +31,10 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
   }
 };
 
-const addOrder = async (products) => {
+const addOrder = async (products, sessionId) => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.post(`${API_URL}/api/orders/add`, { products: products, userId: userId });
+    const response = await axios.post(`${API_URL}/api/orders/add`, { products: products, userId: userId, sessionId: sessionId });
 
     if (response.status === 200) {
       return response;
@@ -88,9 +90,30 @@ const deleteOrder = async (orderId) => {
   }
 };
 
+const checkPayment = async () => {
+  try {
+    const sessionId = localStorage.getItem('sessionId');
+    const response = await axios.post(`${API_URL}/api/payment/check-session`, { sessionId: sessionId });
+
+    if (response.status === 200) {
+      return response.data.payment_status;
+    }
+  } catch (error) {
+    if (error.response) {
+      console.error('HTTP Error: ', error.response.status);
+      console.error('Error message: ', error.response.data.message);
+    } else if (error.request) {
+      console.error('Could not reach the server');
+    } else {
+      console.error('Unexpected error: ', error.message);
+    }
+  }
+};
+
 export {
   makeOrder,
   addOrder,
   getOrders,
-  deleteOrder
+  deleteOrder,
+  checkPayment
 };
