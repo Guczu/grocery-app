@@ -5,17 +5,23 @@ const API_URL = 'http://localhost:3001';
 
 const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
   try {
+    const userId = localStorage.getItem('userId');
     const stripe = await loadStripe('pk_test_51NxZPaDSuxecRLBOu2ck23JR29AzapqKRJEmCTqgaUGneqVBPGTBjwEDlqhz3BwB5vSb9nwOKqwdqpBJAeFTf37P00JvG7Bcpz');
+
+    const token = await axios.post(`${API_URL}/api/user/token`, {
+      userId: userId
+    });
 
     const response = await axios.post(`${API_URL}/api/payment/create-payment`, { items: items, deliveryPrice: deliveryPrice, discountValue: discountValue, cartValue: cartValue }, { 
         headers:  {
-            "Content-Type": 'application/json'
+            "Content-Type": 'application/json',
+            'authorization': `Bearer ${token.data.value}` 
         }
     });
 
-    stripe.redirectToCheckout({
-      sessionId: response.data,
-    });
+     stripe.redirectToCheckout({
+       sessionId: response.data,
+     });
 
     return response.data;
 
@@ -23,6 +29,7 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
     if (error.response) {
       console.error('HTTP Error: ', error.response.status);
       console.error('Error message: ', error.response.data.message);
+      return error.response;
     } else if (error.request) {
       console.error('Could not reach the server');
     } else {
