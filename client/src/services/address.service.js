@@ -25,11 +25,15 @@ const editAddress = async (data) => {
 const getAddress = async () => {
     try {
       const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        return null;
+      }
+
       const response = await axios.post(`${API_URL}/api/get-address`, { userId: userId });
   
-      if (response.status === 200) {
-        return response.data;
-      }
+      return response.data;
+      
     } catch (error) {
       if (error.response) {
         console.error('HTTP Error: ', error.response.status);

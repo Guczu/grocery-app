@@ -7,7 +7,8 @@ import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
 import { addOrder, checkPayment, deleteOrder, makeOrder } from "../../../services/order.service"
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { isAuthenticated } from "../../../services/user.service"
 
 const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => {
     const [cartValue, setCartValue] = useState(0);
@@ -16,6 +17,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     const [isCodeUsed, setIsCodeUsed] = useState(false);
     const [discountError, setDiscountError] = useState('');
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const isPayment = queryParams.get('payment');
 
@@ -47,13 +49,22 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     }
 
     const makeAnOrder = async (products) => {
-        const address = await getAddress();
-        const isAddressValid = !Object.values(address).some(value => value === " ");
+        let address, isAddressValid;
+        const isLoggedIn = await isAuthenticated();
+
+        if (isLoggedIn) {
+            address = await getAddress();
+            isAddressValid = address && !Object.values(address).some(value => value === " ");
+        } else {
+            navigate('/login');
+        }
 
         if (isAddressValid && address) {
             const order = await makeOrder(products, deliveryPrice, discountValue, cartValue);
 
-            if (order) {
+            if (order.status === 401) {
+                navigate('/login')
+            } else if (order) {
                 const orderResult = await addOrder(products, order);
 
                 if (orderResult) {
@@ -62,6 +73,8 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 }
             }
 
+        } else {
+            console.log("Błąd pobrania adresu")
         }
     }
 

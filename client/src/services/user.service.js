@@ -45,13 +45,18 @@ const loginUser = async (name, password) => {
 const logoutUser = async () => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.post(`${API_URL}/api/user/logout`, { userId: userId });
 
-    if (response.status === 200) {
-      localStorage.removeItem('userId');
+    if (userId) {
+      const response = await axios.post(`${API_URL}/api/user/logout`, { userId: userId });
+
+      if (response.status === 200) {
+        localStorage.removeItem('userId');
+      }
+      
     } else {
-      throw new Error('Błąd wylogowania');
+      console.error('Błąd wylogowania - brak userId');
     }
+  
   } catch (error) {
     console.error('Błąd wylogowania:', error);
     throw error;
@@ -76,7 +81,7 @@ const isAuthenticated = async () => {
       return response.data;
   
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.status === 401) {
         await logoutUser();
         return false;
       }
