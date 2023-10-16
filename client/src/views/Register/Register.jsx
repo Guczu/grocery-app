@@ -12,7 +12,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="container mx-auto h-full flex items-center justify-center p-12">
+    <section className="container mx-auto flex justify-center p-12">
         <div className="w-[36rem] bg-base-softbackground rounded-[15px] p-12 flex flex-col items-center gap-6">
 
           <span className="text-heading-6 mb-6">

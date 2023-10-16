@@ -18,10 +18,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row">
             <div className="justify-center items-center md:justify-start md:items-start md:w-1/4 flex flex-col md:p-12 pr-0 mb-12 md:mb-0">
                 <span className="text-main-primary text-heading-3 mb-8">
-                    E-commerce
+                    Foodie
                 </span>
-                <p className="text-typography-text text-body-6">Cricklewood,London</p>
-                <p className="text-typography-text text-body-6">NW2 6qg, Uk</p>
+                <p className="text-typography-text text-body-6">Kraków, PL</p>
 
                 <div className="flex gap-3">
                     <IoLogoFacebook className="w-6 h-6 hover:cursor-pointer"/>
@@ -36,13 +35,13 @@ const Footer = () => {
         </div>
 
         <div className="w-full flex flex-col gap-3 md:flex-row justify-center md:justify-between items-center">
-            <span className="text-typography-text text-body-6">© 2022 Commerce, Inc.</span>
+            <span className="text-typography-text text-body-6">© 2023 Foodie, Inc.</span>
 
             <div>
                 <ul className="flex gap-5">
-                    <li className="text-typography-text text-body-6 hover:cursor-pointer">Privacy policy</li>
-                    <li className="text-main-third text-body-6 hover:cursor-pointer">Terms of use</li>
-                    <li className="text-typography-text text-body-6 hover:cursor-pointer">Cookies</li>
+                    <li className="text-typography-text text-body-6 hover:cursor-pointer">Polityka prywatności</li>
+                    <li className="text-main-third text-body-6 hover:cursor-pointer">Regulamin</li>
+                    <li className="text-typography-text text-body-6 hover:cursor-pointer">Ciasteczka</li>
                 </ul>
             </div>
 
@@ -50,7 +49,7 @@ const Footer = () => {
                 className="flex items-center justify-center"
                 onClick={scrollToTop}    
             >
-                <span className="text-typography-text text-body-1">Scroll to top</span>
+                <span className="text-typography-text text-body-1">Przewiń w górę</span>
                 <AiOutlineArrowUp className="pl-1 w-4 h-4"/>
             </CustomButton> 
 

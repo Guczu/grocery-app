@@ -1,10 +1,7 @@
 import CustomButton from "../../components/CustomButton/CustomButton"
-import { IoIosArrowDown } from 'react-icons/io';
-import { RxMagnifyingGlass } from 'react-icons/rx';
 import { GoPerson } from 'react-icons/go';
 import { PiHandbag } from 'react-icons/pi';
-import CustomInput from "../../components/CustomInput/CustomInput";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Searchbar from "../Searchbar/Searchbar";
 
@@ -12,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="mx-auto h-[90px] gap-4 bg-base-softbackground flex items-center justify-evenly px-10">
         <Link to="/" className="text-main-primary text-heading-4 font-medium">
-            Groceries
+            Foodie
         </Link>
 
         <Searchbar/>

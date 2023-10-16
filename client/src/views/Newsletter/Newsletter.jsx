@@ -11,11 +11,11 @@ const Newsletter = () => {
     <section className="container h-[300px] flex justify-center align-center flex-col mx-auto rounded-[5px] bg-base-bluebackground">
         <div className="w-full md:w-[48rem] pt-[5px] pb-[15px] px-[30px] md:pt-[30px] md:pb-[30px] md:px-[120px]">
             <p className="text-main-white text-heading-2 md:text-heading-3">
-                Yes!
+                Tak!
             </p>
             
             <p className="text-main-white text-heading-2 md:text-heading-3">
-                Send me exclusive offers, unique gift ideas, and personalized tips for shopping and sellling on Commerce.
+                Otrzymuj ekskluzywne promocje, smakowite propozycje produktów spożywczych, subskrybując nasz newsletter!"
             </p>
         </div>
             <Formik
@@ -37,7 +37,7 @@ const Newsletter = () => {
                         name={'email'}
                         onChange={handleChange}
                         value={values.email}
-                        placeholder={'Drop your email'}
+                        placeholder={'Wprowadź email'}
                         type={'text'}
                     >
                         <CustomButton 
@@ -45,7 +45,7 @@ const Newsletter = () => {
                             onClick={handleSubmit}
                         >
                             <span>
-                                Subscribe
+                                Subskrybuj
                             </span>
                             <AiOutlineArrowRight className="ml-[6px] w-4 h-4"/>
                         </CustomButton>
@@ -60,7 +60,7 @@ const Newsletter = () => {
 
         <div className="flex items-center justify-center pt-[10px]">
             <Link to="/" className="text-main-light underline text-[14px]">
-                First order only. You're ready?
+                Tylko dla pierwszego zamówienia. Jesteś gotów?
             </Link>
         </div>
 

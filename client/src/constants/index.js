@@ -20,40 +20,39 @@ const categories = [
 
 const footerData = [
     {
-        title: "Shop", 
+        title: "Sklep", 
         links: [
-            {name: "Gift cards", routeLink: "/"},
-            {name: "Site map", routeLink: "/"},
-            {name: "Polka blog", routeLink: "/"},
-            {name: "Login", routeLink: "/"},
-            {name: "Sign in", routeLink: "/"},
+            {name: "Karty podarunkowe", routeLink: "/"},
+            {name: "Mapa", routeLink: "/"},
+            {name: "Blog", routeLink: "/"},
+            {name: "Logowanie", routeLink: "/login"},
+            {name: "Rejestracja", routeLink: "/register"},
         ]
     },
     {
-        title: "Sell", 
+        title: "Sprzedaż", 
         links: [
-            {name: "Sell on Polka", routeLink: "/"},
-            {name: "Teams", routeLink: "/"},
-            {name: "Forums", routeLink: "/"},
-            {name: "Affiliates", routeLink: "/"},
+            {name: "Zespoły", routeLink: "/"},
+            {name: "Forum", routeLink: "/"},
+            {name: "Partnerzy", routeLink: "/"},
         ]
     },
     {
-        title: "About", 
+        title: "O nas", 
         links: [
-            {name: "Polka, Inc.", routeLink: "/"},
-            {name: "Policies", routeLink: "/"},
-            {name: "Investors", routeLink: "/"},
-            {name: "Careers", routeLink: "/"},
-            {name: "Press", routeLink: "/"},
+            {name: "Foodie, Inc.", routeLink: "/"},
+            {name: "Zasady", routeLink: "/"},
+            {name: "Inwestorzy", routeLink: "/"},
+            {name: "Kariera", routeLink: "/"},
+            {name: "Prasa", routeLink: "/"},
         ]
     },
     {
-        title: "Help", 
+        title: "Pomoc", 
         links: [
-            {name: "Help center", routeLink: "/"},
-            {name: "Trust and safety", routeLink: "/"},
-            {name: "Privacy settings", routeLink: "/"},
+            {name: "Centrum pomocy", routeLink: "/"},
+            {name: "Bezpieczeństwo", routeLink: "/"},
+            {name: "Ustawienia prywatności", routeLink: "/"},
         ]
     },
 ]
