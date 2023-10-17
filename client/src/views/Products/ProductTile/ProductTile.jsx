@@ -19,7 +19,13 @@ const ProductTile = ({ product }) => {
   return (
     <>
       {addProductPopup && <ProductsAddCartPopup/>}
-      <div className="group relative w-[200px] h-[200px] border-[3px] rounded-[15px] flex flex-col justify-center items-center hover:cursor-pointer">
+      <div 
+        className="group relative w-[200px] h-[200px] border-[3px] rounded-[15px] flex flex-col justify-center items-center hover:cursor-pointer"
+        onClick={() => {
+          saveToCart(product)
+          setAddProductPopup(true);
+        }}
+      >
         <img 
           src={image_url} 
           alt={product_name} 
