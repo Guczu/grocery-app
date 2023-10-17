@@ -43,6 +43,7 @@ const userEndpoint = (router) => {
         try {
             response.status(200).send(request.isValid);
         } catch (error) {
+            response.status(error.status).send(request.isValid);
             applicationException.errorHandler(error, response);
         }
     });
