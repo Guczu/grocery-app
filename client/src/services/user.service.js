@@ -77,16 +77,12 @@ const isAuthenticated = async () => {
           'authorization': `Bearer ${token.data.value}`
       }
       });
-
+      
       return response.data;
   
     } catch (error) {
-      if (error.response && error.response.status === 401) {
         await logoutUser();
         return false;
-      }
-
-      throw error;
     }
   } else {
     await logoutUser();
