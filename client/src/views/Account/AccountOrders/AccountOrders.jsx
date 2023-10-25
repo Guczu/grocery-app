@@ -37,7 +37,7 @@ const AccountOrders = () => {
                   styles="w-[150px] flex flex-col border-0 text-heading-4 bg-main-primary hover:bg-main-third text-black text-bold"
                   onClick={() => setIsListExpanded(false)}
                 >
-                  <span>
+                  <span className="text-white">
                     Zwiń
                   </span>
                 </CustomButton>
@@ -46,7 +46,7 @@ const AccountOrders = () => {
                   styles="w-[150px] flex flex-col border-0 text-heading-4 bg-main-primary hover:bg-main-third text-black text-bold"
                   onClick={() => setIsListExpanded(true)}
                 >
-                  <span>
+                  <span className="text-white">
                     Rozwiń
                   </span>
                 </CustomButton>

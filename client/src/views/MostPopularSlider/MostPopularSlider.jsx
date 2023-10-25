@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Header from "../../components/Header/Header";
-import { LiaCartPlusSolid } from 'react-icons/lia'
+import { AiOutlinePlus } from 'react-icons/ai'
 import CustomButton from "../../components/CustomButton/CustomButton";
 import saveToCart from "../../utils/saveToCart";
 import ProductsAddCartPopup from "../Products/ProductsAddCartPopup/ProductsAddCartPopup";
@@ -96,8 +96,8 @@ const MostPopularSlider = () => {
                                     setAddProductPopup(true);
                                 }}
                             >
-                                <div className='absolute top-0 right-0 m-2 w-[40px] h-[40px] p-2 flex flex-col justify-center items-center border-[2px] border-main-primary hover:bg-main-primary rounded-[10px]'>
-                                    <LiaCartPlusSolid className='absolute w-[25px] h-[25px]'/>
+                                <div className='absolute top-0 right-0 m-2 w-[40px] h-[40px] p-2 flex flex-col justify-center items-center border-[2px] bg-main-primary hover:bg-main-third rounded-[10px]'>
+                                    <AiOutlinePlus className='absolute w-[25px] h-[25px] text-base-softbackground'/>
                                 </div>
                             </CustomButton>
                         </div>
