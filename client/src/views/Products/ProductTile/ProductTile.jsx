@@ -43,10 +43,6 @@ const ProductTile = ({ product }) => {
         <div className="absolute w-full h-full hidden group-hover:flex justify-center items-center">
           <CustomButton 
             styles="w-full h-full flex flex-col border-0 text-heading-4 border-main-primary text-black text-bold"
-            onClick={() => {
-              saveToCart(product)
-              setAddProductPopup(true);
-            }}
           >
             <div className='absolute top-0 right-0 m-2 w-[40px] h-[40px] p-2 flex flex-col justify-center items-center bg-main-primary rounded-[10px]'>
               <LiaCartPlusSolid className='absolute w-[25px] h-[25px]'/>

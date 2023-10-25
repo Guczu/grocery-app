@@ -12,7 +12,7 @@ const AccountOrdersTile = ({ item }) => {
         
         <div className="w-full p-2 flex flex-col justify-center gap-2">
             {orderItems.slice(0, isListExpanded ? orderItems.length : 1).map((item, index) => (
-                <div key={index} className="flex items-center gap-2">
+                <div key={index} className="flex flex-col md:flex-row items-center gap-2">
                     <img src={item.image_url} alt={item.product_name} className="w-32 h-32 object-contain bg-white border-2 rounded"/>
 
                     <span className="w-6 flex justify-center items-center">
@@ -30,7 +30,7 @@ const AccountOrdersTile = ({ item }) => {
             ))}
         </div>
 
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-center md:justify-between">
             <div>
                 {orderItems.length > 1 && (
                     isListExpanded ? (
