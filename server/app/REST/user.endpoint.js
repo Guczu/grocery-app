@@ -21,9 +21,9 @@ const userEndpoint = (router) => {
         }
     });
 
-    router.post('/api/user/token', async (request, response, next) => {
+    router.get('/api/user/token', async (request, response, next) => {
         try {
-            const result = await business.getUserManager(request).getTokenByUserId(request.body.userId);
+            const result = await business.getUserManager(request).getTokenByUserId(request.query.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);
@@ -48,9 +48,9 @@ const userEndpoint = (router) => {
         }
     });
 
-    router.post('/api/user/get-user', async (request, response, next) => {
+    router.get('/api/user/get-user', async (request, response, next) => {
         try {
-            const result = await business.getUserManager(request).getUser(request.body.userId);
+            const result = await business.getUserManager(request).getUser(request.query.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);

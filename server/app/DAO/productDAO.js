@@ -106,7 +106,7 @@ async function isDiscountCodeValid(discountCode) {
 async function getProduct(product) {
   try {
     const result = await ProductModel.find({ product_name: { $regex: new RegExp(product.name, 'i') } });
-    console.log(result)
+
     if (result.length > 0) {
       return result;
     }
