@@ -50,7 +50,7 @@ const Navbar = () => {
 
         <Categories/>
 
-        <section className={`w-full bg-base-softbackground ${isDropdown ? 'flex' : 'hidden'} justify-center items-center p-12`}>
+        <section className={`w-full bg-base-softbackground ${isDropdown ? 'flex' : 'hidden'} md:hidden justify-center items-center p-12`}>
 
             <button
                 className="absolute right-0 top-0 p-8"

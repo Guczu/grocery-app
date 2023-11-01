@@ -31,7 +31,7 @@ const CartProducts = ({ cartProducts, setCartProducts }) => {
         </>
       ) : (
         <section className="flex flex-col items-center justify-center mt-12 min-h-[300px] gap-4">
-          <span className="text-heading-6">
+          <span className="text-heading-6 text-center">
             Brak produktów w koszyku
           </span>
           <Link to='/categories' replace>

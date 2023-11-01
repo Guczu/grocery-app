@@ -1,10 +1,9 @@
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../constants';
 
 const isCodeValid = async (discountCode) => {
   try {
-    const response = await axios.post(`${API_URL}/api/discount-code`, { code: discountCode });
+    const response = await axios.get(`${API_URL}/api/discount-code`, { params: {code: discountCode} });
 
     if (response.status === 200) {
       return response.data;

@@ -1,10 +1,9 @@
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../constants';
 
 const addEmailToNewsletter = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/api/add-to-newsletter`, { email: email });
+    const response = await axios.post(`${API_URL}/api/newsletter/add`, { email: email });
 
     if (response.status === 200) {
       return response.data;

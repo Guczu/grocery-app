@@ -1,11 +1,10 @@
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../constants';
 
 const editAddress = async (data) => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.post(`${API_URL}/api/add-address`, { ...data, userId: userId });
+    const response = await axios.post(`${API_URL}/api/address/add`, { ...data, userId: userId });
 
     if (response.status === 200) {
       return response.data;
@@ -30,7 +29,7 @@ const getAddress = async () => {
         return null;
       }
 
-      const response = await axios.post(`${API_URL}/api/get-address`, { userId: userId });
+      const response = await axios.get(`${API_URL}/api/address/get`, { params: {userId: userId} });
   
       return response.data;
       

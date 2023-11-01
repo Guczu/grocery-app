@@ -2,6 +2,8 @@ import biedronka from '../assets/images/biedronka.jpg'
 import lidl from '../assets/images/lidl.jpg'
 import kaufland from '../assets/images/kaufland.jpg'
 
+const API_URL = 'http://localhost:3001';
+
 const shops = [
     {name: 'Biedronka', image_url: biedronka},
     {name: 'Lidl', image_url: lidl},
@@ -57,4 +59,4 @@ const footerData = [
     },
 ]
 
-export { shops, categories, footerData };
+export { shops, categories, footerData, API_URL };

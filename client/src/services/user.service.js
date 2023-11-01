@@ -1,13 +1,12 @@
 import axios from 'axios'
+import { API_URL } from '../constants';
 
-const API_URL = 'http://localhost:3001';
 
 const registerUser = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/api/user/create`, userData);
 
     if (response.status === 200) {
-      console.log('User registered successfully');
       return response.status;
     }
   } catch (error) {
@@ -30,7 +29,6 @@ const loginUser = async (name, password) => {
     });
 
     if (response.status === 200 && response.data.token) {
-      let expireTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
       localStorage.setItem('userId', response.data.userId);
       return response;
     } else {
@@ -68,9 +66,7 @@ const isAuthenticated = async () => {
 
   if (userId) {
     try {
-      const token = await axios.post(`${API_URL}/api/user/token`, {
-        userId: userId
-      });
+      const token = await axios.get(`${API_URL}/api/user/token`, { params: {userId: userId} });
   
       const response = await axios.post(`${API_URL}/api/user/isauth`, {}, {
         headers: {
@@ -93,7 +89,7 @@ const isAuthenticated = async () => {
 const getEmail = async () => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.post(`${API_URL}/api/user/get-user`, { userId: userId });
+    const response = await axios.get(`${API_URL}/api/user/get-user`, { params: {userId: userId} });
 
     if (response.status === 200) {
       return response.data.email;

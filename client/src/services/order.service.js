@@ -1,7 +1,6 @@
 import axios from 'axios'
 import {loadStripe} from '@stripe/stripe-js';
-
-const API_URL = 'http://localhost:3001';
+import { API_URL } from '../constants';
 
 const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
   try {
@@ -61,7 +60,7 @@ const addOrder = async (products, sessionId) => {
 const getOrders = async () => {
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.post(`${API_URL}/api/orders/get`, { userId: userId });
+    const response = await axios.get(`${API_URL}/api/orders/get`, { params: {userId: userId} });
 
     if (response.status === 200) {
       return response.data;
