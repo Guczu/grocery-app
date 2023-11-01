@@ -3,7 +3,7 @@ import applicationException from '../service/applicationException.js';
 
 const addressEndpoint = (router) => {
 
-    router.post('/api/add-address', async (request, response, next) => {
+    router.post('/api/address/add', async (request, response, next) => {
         try {
             const result = await business.getAddressManager(request).addAddress(request.body);
             response.status(200).send(result);
@@ -12,9 +12,9 @@ const addressEndpoint = (router) => {
         }
     });
 
-    router.post('/api/get-address', async (request, response, next) => {
+    router.get('/api/address/get', async (request, response, next) => {
         try {
-            const result = await business.getAddressManager(request).getAddress(request.body.userId);
+            const result = await business.getAddressManager(request).getAddress(request.query.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);

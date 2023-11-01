@@ -12,9 +12,9 @@ const ordersEndpoint = (router) => {
         }
     });
 
-    router.post('/api/orders/get', async (request, response, next) => {
+    router.get('/api/orders/get', async (request, response, next) => {
         try {
-            const result = await business.getOrdersManager(request).getOrders(request.body.userId);
+            const result = await business.getOrdersManager(request).getOrders(request.query.userId);
             response.status(200).send(result);
         } catch (error) {
             applicationException.errorHandler(error, response);

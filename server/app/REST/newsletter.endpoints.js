@@ -3,7 +3,7 @@ import applicationException from '../service/applicationException.js';
 
 const newsletterEndpoint = (router) => {
 
-    router.post('/api/add-to-newsletter', async (request, response, next) => {
+    router.post('/api/newsletter/add', async (request, response, next) => {
         try {
             const result = await business.getNewsletterManager(request).addUser(request.body.email);
             response.status(200).send(result);
@@ -12,7 +12,7 @@ const newsletterEndpoint = (router) => {
         }
     });
 
-    router.delete('/api/newsletter/:email', async (request, response, next) => {
+    router.delete('/api/newsletter/delete/:email', async (request, response, next) => {
         try {
             const userEmail = request.params.email.slice(1);
             const result = await business.getNewsletterManager(request).removeUser(userEmail);
