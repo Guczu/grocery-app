@@ -10,14 +10,7 @@ const editAddress = async (data) => {
       return response.data;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -34,14 +27,7 @@ const getAddress = async () => {
       return response.data;
       
     } catch (error) {
-      if (error.response) {
-        console.error('HTTP Error: ', error.response.status);
-        console.error('Error message: ', error.response.data.message);
-      } else if (error.request) {
-        console.error('Could not reach the server');
-      } else {
-        console.error('Unexpected error: ', error.message);
-      }
+      return { error: true }
     }
   };
 

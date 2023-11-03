@@ -4,8 +4,10 @@ import CustomInput from '../../../components/CustomInput/CustomInput'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import { editAddress } from '../../../services/address.service';
 import { addressValidationSchema } from '../../../constants/addressValidation'
+import { useError } from '../../../utils/ErrorContext/ErrorContext';
 
 const AccountEditPopup = ({ data, setIsEditPopup }) => {
+    const { showError } = useError();
 
     const initialValues = {
         firstName: data.firstName === ' ' ? '' : data.firstName, 
@@ -20,7 +22,11 @@ const AccountEditPopup = ({ data, setIsEditPopup }) => {
       const handleSubmit = async(values) => {
         const newData = await editAddress(values);
 
-        if (newData) {
+        if(newData.error) {
+            showError('Wystąpił błąd!');
+        }
+
+        if (newData && !newData.error) {
             setIsEditPopup(false);
         }
       };

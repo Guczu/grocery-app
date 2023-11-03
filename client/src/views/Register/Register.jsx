@@ -6,8 +6,10 @@ import { Formik } from 'formik'
 import { SignupSchema } from "../../constants/signUpValidation"
 import { registerUser } from "../../services/user.service"
 import { useState } from "react"
+import { useError } from '../../utils/ErrorContext/ErrorContext'
 
 const Register = () => {
+  const { showError } = useError();
   const [registerError, setRegisterError] = useState('');
   const navigate = useNavigate();
 
@@ -24,6 +26,11 @@ const Register = () => {
             validationSchema={SignupSchema}
             onSubmit={async (values) => {
               const register = await registerUser(values);
+
+              if (register.error) {
+                showError('Wystąpił błąd!')
+              }
+
               register === 200 ? navigate('/') : setRegisterError('Nie udało się zarejestrować!');
             }}
           >

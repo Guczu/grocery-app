@@ -9,6 +9,7 @@ import { getAddress } from "../../../services/address.service"
 import { addOrder, checkPayment, deleteOrder, makeOrder } from "../../../services/order.service"
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isAuthenticated } from "../../../services/user.service"
+import { useError } from "../../../utils/ErrorContext/ErrorContext"
 
 const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => {
     const [cartValue, setCartValue] = useState(0);
@@ -16,6 +17,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     const [discountValue, setDiscountValue] = useState(0);
     const [isCodeUsed, setIsCodeUsed] = useState(false);
     const [discountError, setDiscountError] = useState('');
+    const { showError } = useError();
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -38,6 +40,10 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     const checkDiscountCode = async (code) => {
         const validCode = await isCodeValid(code);
 
+        if(validCode.error) {
+            showError('Wystąpił błąd!');
+        }
+
         if (validCode && !isCodeUsed) {
             validCode.freeShip && setDeliveryPrice(0);
             validCode.priceDiscount && setDiscountValue(validCode.discountValue);
@@ -52,8 +58,17 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         let address, isAddressValid;
         const isLoggedIn = await isAuthenticated();
 
+        if(isLoggedIn.error) {
+            showError('Wystąpił błąd!');
+        }
+
         if (isLoggedIn) {
             address = await getAddress();
+
+            if(address.error) {
+                showError('Wystąpił błąd!');
+            }
+
             isAddressValid = address && !Object.values(address).some(value => value === " ");
         } else {
             navigate('/login');
@@ -62,19 +77,25 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         if (isAddressValid && address) {
             const order = await makeOrder(products, deliveryPrice, discountValue, cartValue);
 
+            if(order.error) {
+                showError('Wystąpił błąd!');
+            }
+            
             if (order.status === 401) {
                 navigate('/login')
             } else if (order) {
                 const orderResult = await addOrder(products, order);
 
-                if (orderResult) {
+                if(orderResult.error) {
+                    showError('Wystąpił błąd!');
+                }
+
+                if (orderResult && !orderResult.error) {
                     localStorage.setItem('orderId', orderResult.data._id);
                     localStorage.setItem('sessionId', order);
                 }
             }
 
-        } else {
-            console.log("Błąd pobrania adresu")
         }
     }
 
@@ -83,6 +104,11 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
             const orderId = localStorage.getItem('orderId');
             if (orderId) {
                 const order = await deleteOrder(orderId);
+
+                if(order.error) {
+                    showError('Wystąpił błąd!');
+                }
+
                 localStorage.removeItem('orderId');
             }
         }
@@ -93,6 +119,10 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
 
             if (sessionId) {
                 const isPaid = await checkPayment();
+
+                if(isPaid.error) {
+                    showError('Wystąpił błąd!');
+                }
                 
                 if (isPaid === "paid") {
                     isOrderPaid = true;
@@ -105,6 +135,10 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         const manageOrder = async () => {
             if (isPayment !== null) {
                 const isOrderPaid = await checkOrder();
+
+                if(isOrderPaid.error) {
+                    showError('Wystąpił błąd!');
+                }
     
                 if (isOrderPaid) {
                     setShowPaymentPopup({ paymentStatus: isPayment, popupStatus: true });

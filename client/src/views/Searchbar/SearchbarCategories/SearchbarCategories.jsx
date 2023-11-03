@@ -1,9 +1,11 @@
 import { IoIosArrowDown } from "react-icons/io"
 import CustomButton from "../../../components/CustomButton/CustomButton"
-import { useEffect, useRef, useState } from "react";
-import fetchFilters from "../../../utils/fetchFilters";
+import { useEffect, useRef, useState } from "react"
+import fetchFilters from "../../../utils/fetchFilters"
+import { useError } from '../../../utils/ErrorContext/ErrorContext'
 
 const SearchbarCategories = ({ category, setCategory }) => {
+    const { showError } = useError();
     const [availableFilters, setAvailableFilters] = useState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -11,7 +13,12 @@ const SearchbarCategories = ({ category, setCategory }) => {
     useEffect(() => {
         async function getFilters() {
             const available_filters = await fetchFilters();
-            if (available_filters) {
+
+            if (available_filters.error) {
+                showError('Wystąpił błąd!')
+            }
+
+            if (available_filters && !available_filters.error) {
                 setAvailableFilters(['Wszystkie kategorie', ...available_filters.availableCategories]);
             }
         }

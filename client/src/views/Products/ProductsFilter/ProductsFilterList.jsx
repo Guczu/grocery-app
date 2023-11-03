@@ -4,6 +4,7 @@ import fetchFilters from "../../../utils/fetchFilters";
 import { useEffect, useState } from "react";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { AiOutlineClose } from "react-icons/ai";
+import { useError } from "../../../utils/ErrorContext/ErrorContext"
 
 const ProductsFilterList = ({
   filters,
@@ -11,13 +12,19 @@ const ProductsFilterList = ({
   setIsFiltersExpanded,
   isFiltersExpanded,
 }) => {
+  const { showError } = useError();
   const [isLoading, setIsLoading] = useState(true);
   const [availableFilters, setAvailableFilters] = useState();
 
   useEffect(() => {
     async function getFilters() {
       const available_filters = await fetchFilters();
-      if (available_filters) {
+
+      if (available_filters.error) {
+        showError('Wystąpił błąd!');
+      }
+
+      if (available_filters && !available_filters.error) {
         setAvailableFilters(available_filters);
       }
       setIsLoading(false);

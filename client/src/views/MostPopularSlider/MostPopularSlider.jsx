@@ -11,14 +11,20 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import CustomButton from "../../components/CustomButton/CustomButton";
 import saveToCart from "../../utils/saveToCart";
 import ProductsAddCartPopup from "../Products/ProductsAddCartPopup/ProductsAddCartPopup";
+import { useError } from "../../utils/ErrorContext/ErrorContext"
 
 const MostPopularSlider = () => {
+    const { showError } = useError();
     const [products, setProducts] = useState([]);
     const [addProductPopup, setAddProductPopup] = useState(false);
 
     useEffect(() => {
         const fetchPopularProducts = async () => {
             const fetchedProducts = await getMostPopular();
+
+            if(fetchedProducts.error) {
+                showError('Wystąpił błąd!');
+              }
             
             if (fetchedProducts) {
                 setProducts(fetchedProducts);

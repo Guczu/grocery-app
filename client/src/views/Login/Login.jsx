@@ -5,9 +5,11 @@ import { BiLogInCircle } from 'react-icons/bi'
 import { Formik } from 'formik'
 import { SigninSchema } from '../../constants/signInValidation'
 import { loginUser } from "../../services/user.service"
+import { useError } from "../../utils/ErrorContext/ErrorContext"
 import { useState } from "react"
 
 const Login = () => {
+  const { showError } = useError();
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
 
@@ -24,6 +26,11 @@ const Login = () => {
             validationSchema={SigninSchema}
             onSubmit={async (values) => {
               const login = await loginUser(values.email, values.password);
+
+              if(login.error) {
+                showError('Wystąpił błąd!');
+              }
+
               login.status === 200 ? navigate('/') : setLoginError('Podano błędne dane logowania!');
             }}
           >

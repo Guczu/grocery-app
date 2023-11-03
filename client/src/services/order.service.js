@@ -7,8 +7,8 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
     const userId = localStorage.getItem('userId');
     const stripe = await loadStripe('pk_test_51NxZPaDSuxecRLBOu2ck23JR29AzapqKRJEmCTqgaUGneqVBPGTBjwEDlqhz3BwB5vSb9nwOKqwdqpBJAeFTf37P00JvG7Bcpz');
 
-    const token = await axios.post(`${API_URL}/api/user/token`, {
-      userId: userId
+    const token = await axios.get(`${API_URL}/api/user/token`, {
+      params: { userId: userId }
     });
 
     const response = await axios.post(`${API_URL}/api/payment/create-payment`, { items: items, deliveryPrice: deliveryPrice, discountValue: discountValue, cartValue: cartValue }, { 
@@ -25,15 +25,7 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
     return response.data;
 
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-      return error.response;
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -46,14 +38,7 @@ const addOrder = async (products, sessionId) => {
       return response;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -66,14 +51,7 @@ const getOrders = async () => {
       return response.data;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -85,14 +63,7 @@ const deleteOrder = async (orderId) => {
       return response.status;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -105,14 +76,7 @@ const checkPayment = async () => {
       return response.data.payment_status;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 

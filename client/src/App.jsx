@@ -8,10 +8,28 @@ import Register from "./views/Register/Register";
 import PageLayout from "./views/PageLayout/PageLayout";
 import NotFound from "./views/NotFound/NotFound";
 import ProtectedRoute from "./guards/ProtectedRoute";
+import { useError } from "./utils/ErrorContext/ErrorContext";
+import { useEffect } from "react";
+import ErrorPopup from "./views/ErrorPopup/ErrorPopup";
 
 function App() {
+  const { error, hideError } = useError();
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        hideError();
+      }, 5000);
+      
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [error])
+
   return (
       <div className="w-full h-screen bg-main-white font-poppins">
+        {error && <ErrorPopup errorMessage={error}/>}
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/login" element={<Login />} />

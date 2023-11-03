@@ -3,16 +3,22 @@ import CustomButton from "../../../components/CustomButton/CustomButton"
 import { AiOutlineShopping } from 'react-icons/ai'
 import { getOrders } from "../../../services/order.service"
 import AccountOrdersTile from "../AccountOrdersTile/AccountOrdersTile"
+import { useError } from "../../../utils/ErrorContext/ErrorContext"
 
 const AccountOrders = () => {
+  const { showError } = useError();
   const [userOrders, setUserOrders] = useState([]);
   const [isListExpanded, setIsListExpanded] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
       const orders = await getOrders();
+      
+      if(orders.error) {
+        showError('Wystąpił błąd!');
+      }
 
-      if (orders) {
+      if (orders && !orders.error) {
         const sortedOrders = orders
           .map(order => ({ ...order, date: new Date(order.orderDate) }))
           .sort((a, b) => b.date - a.date);

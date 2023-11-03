@@ -3,10 +3,12 @@ import ProductsFilter from "./ProductsFilter/ProductsFilter";
 import ProductsList from "./ProductsList/ProductsList";
 import fetchProducts from "../../utils/fetchProducts";
 import { useLocation } from "react-router-dom";
+import { useError } from "../../utils/ErrorContext/ErrorContext"
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const { showError } = useError();
   const location = useLocation();
   const { shopFilter, filter, productName } = location.state || {};
   const [pagination, setPagination] = useState({
@@ -24,7 +26,12 @@ const Products = () => {
   useEffect(() => {
     async function getProducts() {
       const result = await fetchProducts(filters, pagination);
-      if (result) {
+
+      if (result.error) {
+        showError('Wystąpił błąd!')
+      }
+
+      if (result && !result.error) {
         setProducts(result);
         setIsLoading(false);
       }
@@ -43,7 +50,12 @@ const Products = () => {
 
     async function getProducts() {
       const result = await fetchProducts(newFilters, pagination);
-      if (result) {
+
+      if (result.error) {
+        showError('Wystąpił błąd!')
+      }
+
+      if (result && !result.error) {
         setProducts(result);
         setIsLoading(false);
       }

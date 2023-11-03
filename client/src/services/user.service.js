@@ -10,14 +10,7 @@ const registerUser = async (userData) => {
       return response.status;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    return { error: true }
   }
 };
 
@@ -31,11 +24,8 @@ const loginUser = async (name, password) => {
     if (response.status === 200 && response.data.token) {
       localStorage.setItem('userId', response.data.userId);
       return response;
-    } else {
-      throw new Error('Błąd logowania');
     }
   } catch (error) {
-    console.error('Błąd logowania:', error);
     return error.response;
   }
 };
@@ -56,8 +46,7 @@ const logoutUser = async () => {
     }
   
   } catch (error) {
-    console.error('Błąd wylogowania:', error);
-    throw error;
+    console.error('Błąd wylogowania');
   }
 }
 
@@ -95,14 +84,7 @@ const getEmail = async () => {
       return response.data.email;
     }
   } catch (error) {
-    if (error.response) {
-      console.error('HTTP Error: ', error.response.status);
-      console.error('Error message: ', error.response.data.message);
-    } else if (error.request) {
-      console.error('Could not reach the server');
-    } else {
-      console.error('Unexpected error: ', error.message);
-    }
+    console.error('Błąd pobrania email')
   }
 };
 
