@@ -1,3 +1,4 @@
+import React from "react";
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { BsFillTrash3Fill } from 'react-icons/bs'
 import removeFromCart from "../../../utils/removeFromCart";
@@ -27,7 +28,7 @@ const CartProductTile = ({ product, setCartProducts }) => {
     }
 
   return (
-    <div className="w-full md:min-w-[600px] flex flex-col p-8 xl:flex-row items-center justify-center md:justify-around h-max rounded-[15px] relative bg-base-softbackground">
+    <div className="w-full md:min-w-[600px] flex flex-col p-8 xl:flex-row items-center justify-center md:justify-around h-max rounded-[15px] relative bg-base-softbackground" data-testid="cartproducttile-container">
 
         <div className="absolute right-0 top-0 p-2 md:p-6">
             <span>
@@ -55,15 +56,17 @@ const CartProductTile = ({ product, setCartProducts }) => {
             <CustomButton
                 className="w-6 h-6 rounded-full border-2 border-main-softblack flex justify-center items-center"
                 onClick={subQuantity}
+                data-testid="sub-count"
             >
                 <span>-</span>
             </CustomButton>
-            <span>
+            <span data-testid="product-quantity">
                 Ilość: {product.quantity}
             </span>
             <CustomButton
                 className="w-6 h-6 rounded-full border-2 border-main-softblack flex justify-center items-center"
                 onClick={addQuantity}
+                data-testid="add-count"
             >
                 <span>+</span>
             </CustomButton>

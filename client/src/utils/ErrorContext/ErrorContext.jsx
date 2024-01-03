@@ -7,7 +7,7 @@ export const useError = () => {
 };
 
 export const ErrorProvider = ({ children }) => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
 
   const showError = (errorMessage) => {
     setError(errorMessage);

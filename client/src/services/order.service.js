@@ -5,7 +5,6 @@ import { API_URL } from '../constants';
 const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
   try {
     const userId = localStorage.getItem('userId');
-    const stripe = await loadStripe('pk_test_51NxZPaDSuxecRLBOu2ck23JR29AzapqKRJEmCTqgaUGneqVBPGTBjwEDlqhz3BwB5vSb9nwOKqwdqpBJAeFTf37P00JvG7Bcpz');
 
     const token = await axios.get(`${API_URL}/api/user/token`, {
       params: { userId: userId }
@@ -18,15 +17,18 @@ const makeOrder = async (items, deliveryPrice, discountValue, cartValue) => {
         }
     });
 
-     stripe.redirectToCheckout({
-       sessionId: response.data,
-     });
-
     return response.data;
 
   } catch (error) {
     return { error: true }
   }
+};
+
+const initiateStripeCheckout = async (sessionId) => {
+  const stripe = await loadStripe('pk_test_51NxZPaDSuxecRLBOu2ck23JR29AzapqKRJEmCTqgaUGneqVBPGTBjwEDlqhz3BwB5vSb9nwOKqwdqpBJAeFTf37P00JvG7Bcpz');
+  stripe.redirectToCheckout({
+    sessionId: sessionId,
+  });
 };
 
 const addOrder = async (products, sessionId) => {
@@ -85,5 +87,6 @@ export {
   addOrder,
   getOrders,
   deleteOrder,
-  checkPayment
+  checkPayment,
+  initiateStripeCheckout
 };

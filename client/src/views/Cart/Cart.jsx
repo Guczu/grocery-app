@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartProducts from "./CartProducts/CartProducts"
 import CartSummary from "./CartSummary/CartSummary"
 import fetchCart from "../../utils/fetchCart";

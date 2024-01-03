@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import CustomButton from "../../../components/CustomButton/CustomButton"
 import { BsCash } from 'react-icons/bs'
 import { RiCoupon2Line } from 'react-icons/ri'
@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup';
 import { isCodeValid } from "../../../services/discount.service"
 import { getAddress } from "../../../services/address.service"
-import { addOrder, checkPayment, deleteOrder, makeOrder } from "../../../services/order.service"
+import { addOrder, checkPayment, deleteOrder, initiateStripeCheckout, makeOrder } from "../../../services/order.service"
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isAuthenticated } from "../../../services/user.service"
 import { useError } from "../../../utils/ErrorContext/ErrorContext"
@@ -17,7 +17,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
     const [discountValue, setDiscountValue] = useState(0);
     const [isCodeUsed, setIsCodeUsed] = useState(false);
     const [discountError, setDiscountError] = useState('');
-    const { showError } = useError();
+    const errorContext = useError();
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -41,7 +41,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         const validCode = await isCodeValid(code);
 
         if(validCode.error) {
-            showError('Wystąpił błąd!');
+            errorContext.showError('Wystąpił błąd!8');
         }
 
         if (validCode && !isCodeUsed) {
@@ -59,14 +59,14 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
         const isLoggedIn = await isAuthenticated();
 
         if(isLoggedIn.error) {
-            showError('Wystąpił błąd!');
+            errorContext.showError('Wystąpił błąd!7');
         }
 
         if (isLoggedIn) {
             address = await getAddress();
 
             if(address.error) {
-                showError('Wystąpił błąd!');
+                errorContext.showError('Wystąpił błąd!6');
             }
 
             isAddressValid = address && !Object.values(address).some(value => value === " ");
@@ -78,7 +78,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
             const order = await makeOrder(products, deliveryPrice, discountValue, cartValue);
 
             if(order.error) {
-                showError('Wystąpił błąd!');
+                errorContext.showError('Wystąpił błąd!5');
             }
             
             if (order.status === 401) {
@@ -87,12 +87,13 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 const orderResult = await addOrder(products, order);
 
                 if(orderResult.error) {
-                    showError('Wystąpił błąd!');
+                    errorContext.showError('Wystąpił błąd!4');
                 }
 
                 if (orderResult && !orderResult.error) {
                     localStorage.setItem('orderId', orderResult.data._id);
                     localStorage.setItem('sessionId', order);
+                    await initiateStripeCheckout(order);
                 }
             }
 
@@ -106,7 +107,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 const order = await deleteOrder(orderId);
 
                 if(order.error) {
-                    showError('Wystąpił błąd!');
+                    errorContext.showError('Wystąpił błąd!3');
                 }
 
                 localStorage.removeItem('orderId');
@@ -121,7 +122,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 const isPaid = await checkPayment();
 
                 if(isPaid.error) {
-                    showError('Wystąpił błąd!');
+                    errorContext.showError('Wystąpił błąd!2');
                 }
                 
                 if (isPaid === "paid") {
@@ -137,7 +138,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 const isOrderPaid = await checkOrder();
 
                 if(isOrderPaid.error) {
-                    showError('Wystąpił błąd!');
+                    errorContext.showError('Wystąpił błąd!1');
                 }
     
                 if (isOrderPaid) {
@@ -158,18 +159,18 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
 
   return (
     <>
-        <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12">
+        <div className="w-full xl:w-1/4 p-6 flex flex-col gap-4 bg-base-softbackground rounded-[10px] h-max pb-12" data-testid="cart-summary">
             <span className="text-heading-5 p-6">
                 Podsumowanie
             </span>
 
             <div className="flex flex-col gap-2">
-                <span>
+                <span data-testid="sum-text">
                     Suma: {cartValue.toFixed(2)}zł
                 </span>
 
-                <span>
-                    Dostawa: {deliveryPrice}
+                <span data-testid="delivery-text">
+                    Dostawa: {deliveryPrice}zł
                 </span>
             </div>
 
@@ -177,6 +178,7 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                 styles={`text-body-3 text-white px-6 py-2 ${cartProducts.length < 1 ? 'bg-base-disabled' : 'bg-main-primary hover:bg-main-third'}`}
                 disabled={cartProducts.length < 1}
                 onClick={() => makeAnOrder(cartProducts)}
+                data-testid="checkout-button"
             >
                 <span>
                     ZAPŁAĆ
@@ -207,9 +209,10 @@ const CartSummary = ({ cartProducts, setCartProducts, setShowPaymentPopup }) => 
                             />
 
                             <CustomButton
-                            type="submit"
-                            disabled={isSubmitting || cartProducts.length < 1}
-                            className={`flex justify-center items-center text-body-3 text-white px-6 py-2 rounded-full ${cartProducts.length < 1 ? 'bg-base-disabled' : 'bg-main-primary hover:bg-main-third'}`}
+                                type="submit"
+                                disabled={isSubmitting || cartProducts.length < 1}
+                                className={`flex justify-center items-center text-body-3 text-white px-6 py-2 rounded-full ${cartProducts.length < 1 ? 'bg-base-disabled' : 'bg-main-primary hover:bg-main-third'}`}
+                                data-testid="discount-button"
                             >
                                 <span>ZASTOSUJ</span>
                                 <RiCoupon2Line className="ml-[6px] w-4 h-4" />
