@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import routes from './REST/routes.js';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import swaggerDocs from './service/swagger.js';
 
 const app = express();
 
@@ -29,6 +30,9 @@ mongoose.connect(config.databaseUrl, { useNewUrlParser: true, useUnifiedTopology
 
 routes(app);
 
-app.listen(config.port, function () {
+const server = app.listen(config.port, function () {
     console.info(`Server is running at ${config.port}`)
+    swaggerDocs(app);
 });
+
+export default server;
